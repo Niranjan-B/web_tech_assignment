@@ -76,6 +76,7 @@
            color: lightgrey;
            width: 100%;
            height: 275px;
+           border-collapse: collapse;
        }
 
        table.bottom_bar_container_table td {
@@ -105,7 +106,6 @@
            letter-spacing: 2px; 
            color: darkgoldenrod;
            float: left;
-           margin-left: 20px;
        }
 
        body {
@@ -118,7 +118,6 @@
            font-size: 9px; 
            letter-spacing: 2px; 
            color: white;
-           margin-left: 20px;
            padding-top: 5px;
        }
 
@@ -126,7 +125,6 @@
            color: white;
            font-size: 10px;
            float: left;
-           margin-left: 20px;
            margin-top: 10px;
            padding-bottom: 2px;
        }
@@ -138,7 +136,7 @@
 
        button.bottom_bar_container_table_btn_contact_us {
            border: 2px solid white; 
-           width: 130px; 
+           width: 110px; 
            height: 28px; 
            position: fixed; 
            margin-top: 15px;
@@ -158,6 +156,11 @@
            font-size: 10px;
            float: left;
            padding-left: 5px;
+       }
+
+       div.bottom_bar_container_table_mail_tel_contact_us {
+           position: fixed; 
+           margin-top: 15px;
        }
 
     </style>
@@ -182,9 +185,9 @@
                 <button class="get_in_touch_container_button">GET IN TOUCH</button>
             </div>
             <div class="bottom_bar_container">
-                <table class="bottom_bar_container_table" border="1">
+                <table class="bottom_bar_container_table">
                     <tr>
-                        <td colspan="2" style="border-bottom: 1px solid gray; height: 120px; font-size: 9px; letter-spacing: 2px; padding-right: 45px; padding-left: 45px;">
+                        <td colspan="2" style="border-bottom: 1px solid gray; height: 120px; font-size: 9px; letter-spacing: 2px; padding-right: 35px; padding-left: 35px;">
                             READ OUR LATEST ARTICLES
                         </td>
                         <td colspan="3" style="border-bottom: 1px solid gray; border-left: 1px solid gray;">
@@ -200,25 +203,25 @@
                     </tr>
                     <tr>
                         <td>
-                            <div class="bottom_bar_conatiner_table_hq">
+                            <div class="bottom_bar_conatiner_table_hq" style="padding-left: 20px;">
                                 HEADQUARTERS
                             </div>
                             <br>
-                            <div class="bottom_bar_conatiner_table_hq_edin">
+                            <div class="bottom_bar_conatiner_table_hq_edin" style="padding-left: 20px;">
                                 EDINBURG
                             </div>
                             <br>
-                            <div class="bottom_bar_conatiner_table_hq_edin_addr">
+                            <div class="bottom_bar_conatiner_table_hq_edin_addr" style="padding-left: 20px;">
                                 1012 Constitution Street
                                 <br>
                                 <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
-                                Edinburg
+                                Edinburg&nbsp;
                                 <br>
                                 <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
-                                    Scotland
+                                    Scotland&nbsp;&nbsp;
                                     <br>
                                     <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
-                                        EH67Ae
+                                        EH6 7AE
                                         <br>
                                         <div style="float: left;">
                                             <button class="bottom_bar_container_table_btn_contact_us">CONTACT US</button>
@@ -229,15 +232,114 @@
                             </div>
                         </td>
                         <td style="padding-top: 40px;">
-                            <span class="bottom_bar_container_table_t_e" style="padding-left: 40px;">T:</span>&nbsp;
+                            <span class="bottom_bar_container_table_t_e">T:</span>&nbsp;
                             <span class="bottom_bar_container_table_t_e_content">+44 (0) 555 561 0120</span>
                             <br>
-                            <span class="bottom_bar_container_table_t_e" style="padding-left: 40px;">E:</span>&nbsp;
+                            <span class="bottom_bar_container_table_t_e">E:</span>&nbsp;
                             <span class="bottom_bar_container_table_t_e_content"><u>hello@productions.com</u></span>
                         </td>
-                        <td>hello</td>
-                        <td>hello</td>
-                        <td>hello</td>
+                        <td>
+                            <div class="bottom_bar_conatiner_table_hq">
+                                OFFICES
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin">
+                                NEW YORK
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin_addr">
+                                12 E. 47th Street&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                5th Floor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                    New York, New York 10017
+                                    <br>
+                                    <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                        USA
+                                        <br>
+                                        <div class="bottom_bar_container_table_mail_tel_contact_us">
+                                            <span class="bottom_bar_container_table_t_e">T:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content">+1 212-555-8843</span>
+                                            <br>
+                                            <span class="bottom_bar_container_table_t_e">E:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content"><u>newyork@productions.com</u></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bottom_bar_conatiner_table_hq" style="visibility: hidden">
+                                OFFICES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin">
+                                LONDON
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin_addr">
+                                128 Dean Street
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                London&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                    England&nbsp;&nbsp;&nbsp;
+                                    <br>
+                                    <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                        W1D 4QF
+                                        <br>
+                                        <div class="bottom_bar_container_table_mail_tel_contact_us">
+                                            <span class="bottom_bar_container_table_t_e">T:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content">+44 (0) 20 5555 1190</span>
+                                            <br>
+                                            <span class="bottom_bar_container_table_t_e">E:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content"><u>london@productions.com</u></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="bottom_bar_conatiner_table_hq" style="visibility: hidden">
+                                OFFICES
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin">
+                                MANCHESTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <br>
+                            <div class="bottom_bar_conatiner_table_hq_edin_addr">
+                                37 Oldfield Road
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                Manchester
+                                <br>
+                                <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                    England
+                                    <br>
+                                    <div class="bottom_bar_conatiner_table_hq_edin_remaining_addr">
+                                        M5 4LZ
+                                        <br>
+                                        <div class="bottom_bar_container_table_mail_tel_contact_us">
+                                            <span class="bottom_bar_container_table_t_e">T:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content">+44 (0) 161 467 1212</span>
+                                            <br>
+                                            <span class="bottom_bar_container_table_t_e">E:</span>&nbsp;
+                                            <span class="bottom_bar_container_table_t_e_content"><u>manchester@productions.com</u></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
