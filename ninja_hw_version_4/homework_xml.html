@@ -30,17 +30,94 @@
 
             var submitQueryButton = document.getElementById("button_submit_query");
             var urlInput = document.getElementById("input_xml_url");
+            var xmlHttp;
+
+            function loadXmlDocument(url) {
+                var xmlDocument;
+
+                if (window.XMLHttpRequest) {
+                    xmlHttp = new XMLHttpRequest();
+                } else {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                xmlHttp.open("GET", url, false);
+                xmlHttp.send();
+                xmlDocument = xmlHttp.responseXML;
+                return xmlDocument;
+            }
 
             function validateUrlnput() {
+                var xml;
+
                 if(urlInput.value === "") {
                     alert("Please enter an URL");
                 } else {
-                    console.log("" + urlInput.value);
+                    xml = loadXmlDocument(urlInput.value);
+                    popUp(xml);
                 }
             }
 
-            function parseXmlFile() {
-                window.open("", "XmlParsedWindow", "toolbar=no, scrollbars=yes, resizable=no, top=45, left=13, width=835, height=550");
+            function popUp(xmlContent) {
+                var newWindow = window.open("", "XmlParsedWindow", "toolbar=no, scrollbars=yes, resizable=no, top=45, left=13, width=835, height=550");
+                var htmlString = "";
+
+                htmlString += "<html>\n";
+                htmlString += "<head>\n";
+                htmlString += "</head>\n";
+                htmlString += "<body>\n";
+                htmlString += '<table border=1>\n';
+                
+                var childNodes = xmlContent.getElementsByTagName("Table")[0].children; 
+
+                for(var i=0; i<childNodes.length; i++) {
+                    var childrenTagsInsideChildNode = childNodes[i].children;
+                    
+                    htmlString += "<tr>";
+                    for(var j=0; j<childrenTagsInsideChildNode.length; j++) {
+                        console.log(childrenTagsInsideChildNode[j]);
+                        
+                        // to fill up the head section of the table
+                        if (childrenTagsInsideChildNode[j].tagName === "Data") {
+                            htmlString += "<td style='font-weight:bold; text-align:center;'>" + childrenTagsInsideChildNode[j].firstChild.data + "</td>";
+                        } else {
+                            htmlString += "<td>";
+                            if (childrenTagsInsideChildNode[j].tagName === "Hubs") {
+                                var hubChildNodes = childrenTagsInsideChildNode[j].children;
+
+                                // build listelements for Hubs
+                                htmlString += "<ul>";
+                                for (var k=0; k<hubChildNodes.length; k++) {
+                                    // make the first list item bold
+                                    if (k === 0) {
+                                        htmlString += "<li style='font-weight:bold;'>" + hubChildNodes[k].firstChild.data + "</li>";
+                                    } else {
+                                        htmlString += "<li>" + hubChildNodes[k].firstChild.data + "</li>";
+                                    }
+                                }
+                                htmlString += "</ul>";
+                            } else if (childrenTagsInsideChildNode[j].tagName === "Plane") {
+                                htmlString += "<img style='width:250px; height:120px;' src=" + childrenTagsInsideChildNode[j].firstChild.data + "/>";
+                            } else if (childrenTagsInsideChildNode[j].tagName === "HomePage") {
+                                htmlString += "<a href=" + childrenTagsInsideChildNode[j].firstChild.data + ">" + childrenTagsInsideChildNode[j].firstChild.data + "</a>";
+                            } else {
+                                if (childrenTagsInsideChildNode[j].firstChild != null) {
+                                    htmlString += childrenTagsInsideChildNode[j].firstChild.data;
+                                }
+                            }
+                            htmlString += "</td>";
+                        }
+
+                    } 
+                    htmlString += "</tr>\n";
+                }
+
+                htmlString += "</table>\n";
+                htmlString += "</body>\n";
+                htmlString += "</html>\n";
+
+                newWindow.document.write(htmlString);
+
             }
             
             
