@@ -46,12 +46,12 @@
                 try {
                     xmlHttp.send();
                 } catch (exception) {
-                    if (exception.name == 'NetworkError') {
+                    if (exception.name === 'NetworkError') {
                         nwException = true;
                     }
                 }
 
-                if(nwException) {
+                if(nwException  || xmlHttp.status === 404) {
                     return false;
                 } else {
                     xmlDocument = xmlHttp.responseXML;
