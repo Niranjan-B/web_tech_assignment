@@ -1,8 +1,56 @@
+<!DOCTYPE html>
+
 <html>
-    <head><title>HW4</title></head>
+    <head>
+        <title>Homework 4</title>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+    </head>
+    <style type="text/css">
+        button.button_submit_query {
+            margin-top: 21px;
+            height: 20px;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            background-color: #d3d3d3;
+            border-radius: 4px;
+            border: 1px solid #c0c0c0;
+            width: auto;
+        }
+    </style>
     <body>
         <center>
-            <h1>Graded HW4</h1>
+            <h2 style="font-size: 15px; margin-top: 110px;">Enter URL for Airlines List XML File</h2>
+            <input type="text" id="input_xml_url" style="margin-top: 8px;"/>
+            <br>
+            <button id="button_submit_query" class="button_submit_query">Submit Query</button>
         </center>
+        <script type="text/javascript">
+
+            var submitQueryButton = document.getElementById("button_submit_query");
+            var urlInput = document.getElementById("input_xml_url");
+
+            function validateUrlnput() {
+                if(urlInput.value === "") {
+                    alert("Please enter an URL");
+                } else {
+                    console.log("" + urlInput.value);
+                }
+            }
+
+            function parseXmlFile() {
+                window.open("", "XmlParsedWindow", "toolbar=no, scrollbars=yes, resizable=no, top=45, left=13, width=835, height=550");
+            }
+            
+            
+            submitQueryButton.onclick = function() {
+                submitQueryButton.style.color = "#ffffff";
+                setTimeout(function() {
+                    submitQueryButton.style.color = "#000000";
+                    validateUrlnput();
+                },110);
+            }
+    </script>
     </body>
 </html>
