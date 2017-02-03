@@ -42,7 +42,14 @@
                 }
 
                 xmlHttp.open("GET", url, false);
-                xmlHttp.send();
+                try {
+                    xmlHttp.send();
+                } catch (exception) {
+                    if (exception.name == 'NetworkError') {
+                        // check for proper logic here, both the alert dialogs are opening!!
+                        alert("The file you requested does not exist");
+                    }
+                }
                 xmlDocument = xmlHttp.responseXML;
                 return xmlDocument;
             }
@@ -54,12 +61,24 @@
                     alert("Please enter an URL");
                 } else {
                     xml = loadXmlDocument(urlInput.value);
-                    popUp(xml);
+                    if (xml == null) {
+                        alert("Error in XML file");
+                    } else {
+                        popUp(xml);
+                    }
                 }
             }
 
             function popUp(xmlContent) {
-                var newWindow = window.open("", "XmlParsedWindow", "toolbar=no, scrollbars=yes, resizable=no, top=45, left=13, width=835, height=550");
+
+                var childNodes = xmlContent.getElementsByTagName("Table")[0].children;
+                
+                if (childNodes.length === 1) {
+                    alert("No Airline data");
+
+                } else {
+
+                var newWindow = window.open("", "titleOfWindow", "titlebar=0, menubar=0, status=0, toolbar=0, scrollbars=1, resizable=0, top=45, left=13, width=835, height=550");
                 var htmlString = "";
 
                 htmlString += "<html>\n";
@@ -67,16 +86,13 @@
                 htmlString += "</head>\n";
                 htmlString += "<body>\n";
                 htmlString += '<table border=1>\n';
-                
-                var childNodes = xmlContent.getElementsByTagName("Table")[0].children; 
+
 
                 for(var i=0; i<childNodes.length; i++) {
                     var childrenTagsInsideChildNode = childNodes[i].children;
                     
                     htmlString += "<tr>";
                     for(var j=0; j<childrenTagsInsideChildNode.length; j++) {
-                        console.log(childrenTagsInsideChildNode[j]);
-                        
                         // to fill up the head section of the table
                         if (childrenTagsInsideChildNode[j].tagName === "Data") {
                             htmlString += "<td style='font-weight:bold; text-align:center;'>" + childrenTagsInsideChildNode[j].firstChild.data + "</td>";
@@ -118,6 +134,7 @@
 
                 newWindow.document.write(htmlString);
 
+                }
             }
             
             
