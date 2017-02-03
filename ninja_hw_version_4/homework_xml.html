@@ -34,6 +34,7 @@
 
             function loadXmlDocument(url) {
                 var xmlDocument;
+                var nwException = false;
 
                 if (window.XMLHttpRequest) {
                     xmlHttp = new XMLHttpRequest();
@@ -46,12 +47,17 @@
                     xmlHttp.send();
                 } catch (exception) {
                     if (exception.name == 'NetworkError') {
-                        // check for proper logic here, both the alert dialogs are opening!!
-                        alert("The file you requested does not exist");
+                        nwException = true;
                     }
                 }
-                xmlDocument = xmlHttp.responseXML;
-                return xmlDocument;
+
+                if(nwException) {
+                    return false;
+                } else {
+                    xmlDocument = xmlHttp.responseXML;
+                    return xmlDocument;
+                }
+                
             }
 
             function validateUrlnput() {
@@ -61,7 +67,9 @@
                     alert("Please enter an URL");
                 } else {
                     xml = loadXmlDocument(urlInput.value);
-                    if (xml == null) {
+                    if (xml === false) {
+                        alert("The file you requested does not exist");
+                    } else if (xml == null) {
                         alert("Error in XML file");
                     } else {
                         popUp(xml);
@@ -75,7 +83,6 @@
                 
                 if (childNodes.length === 1) {
                     alert("No Airline data");
-
                 } else {
 
                 var newWindow = window.open("", "titleOfWindow", "titlebar=0, menubar=0, status=0, toolbar=0, scrollbars=1, resizable=0, top=45, left=13, width=835, height=550");
@@ -101,17 +108,19 @@
                             if (childrenTagsInsideChildNode[j].tagName === "Hubs") {
                                 var hubChildNodes = childrenTagsInsideChildNode[j].children;
 
-                                // build listelements for Hubs
-                                htmlString += "<ul>";
-                                for (var k=0; k<hubChildNodes.length; k++) {
-                                    // make the first list item bold
-                                    if (k === 0) {
-                                        htmlString += "<li style='font-weight:bold;'>" + hubChildNodes[k].firstChild.data + "</li>";
-                                    } else {
-                                        htmlString += "<li>" + hubChildNodes[k].firstChild.data + "</li>";
+                                if (hubChildNodes.length > 0) {
+                                    // build listelements for Hubs
+                                    htmlString += "<ul>";
+                                    for (var k=0; k<hubChildNodes.length; k++) {
+                                        // make the first list item bold
+                                        if (k === 0) {
+                                            htmlString += "<li style='font-weight:bold;'>" + hubChildNodes[k].firstChild.data + "</li>";
+                                        } else {
+                                            htmlString += "<li>" + hubChildNodes[k].firstChild.data + "</li>";
+                                        }
                                     }
+                                    htmlString += "</ul>";
                                 }
-                                htmlString += "</ul>";
                             } else if (childrenTagsInsideChildNode[j].tagName === "Plane") {
                                 htmlString += "<img style='width:250px; height:120px;' src=" + childrenTagsInsideChildNode[j].firstChild.data + "/>";
                             } else if (childrenTagsInsideChildNode[j].tagName === "HomePage") {
@@ -129,6 +138,7 @@
                 }
 
                 htmlString += "</table>\n";
+                htmlString += "<noscript>";
                 htmlString += "</body>\n";
                 htmlString += "</html>\n";
 
@@ -146,5 +156,6 @@
                 },110);
             }
     </script>
+    <noscript>
     </body>
 </html>
