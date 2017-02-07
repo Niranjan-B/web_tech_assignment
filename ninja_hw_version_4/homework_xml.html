@@ -113,10 +113,14 @@
                                     htmlString += "<ul>";
                                     for (var k=0; k<hubChildNodes.length; k++) {
                                         // make the first list item bold
-                                        if (k === 0) {
-                                            htmlString += "<li style='font-weight:bold;'>" + hubChildNodes[k].firstChild.data + "</li>";
+                                        if (hubChildNodes[k].firstChild != null) {
+                                            if (k === 0) {
+                                                htmlString += "<li style='font-weight:bold;'>" + hubChildNodes[k].firstChild.data + "</li>";
+                                            } else {
+                                                htmlString += "<li>" + hubChildNodes[k].firstChild.data + "</li>";
+                                            }
                                         } else {
-                                            htmlString += "<li>" + hubChildNodes[k].firstChild.data + "</li>";
+                                            htmlString += "<li></li>";
                                         }
                                     }
                                     htmlString += "</ul>";
