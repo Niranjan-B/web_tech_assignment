@@ -22,7 +22,7 @@
     <body>
         <center>
             <h2 style="font-size: 15px; margin-top: 110px;">Enter URL for Airlines List XML File</h2>
-            <input type="text" id="input_xml_url" style="margin-top: 8px;"/>
+            <input type="text" id="input_xml_url" style="margin-top: 8px;" onkeypress="handleEvent(event)"/>
             <br>
             <button id="button_submit_query" class="button_submit_query">Submit Query</button>
         </center>
@@ -159,6 +159,15 @@
                     validateUrlnput();
                 },110);
             }
+
+            function handleEvent(e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+
+                    validateUrlnput();
+                }
+            }
+
     </script>
     <noscript>
     </body>
