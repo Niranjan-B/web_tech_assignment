@@ -2,26 +2,24 @@
 <html>
     <head>
         <title>HW6</title>
-    </head>
-    <style>
-        div.facebook_search_container {
-            border: 2px solid grey;
-            width: 50%;
-            padding-top: 3px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-bottom: 15px;
-        }
-        #facebook_search_text {
-            font-size: 20px;
-            font-style: italic;
-            font-family: sans-serif;
-        }
-        .form_labels {
-            font-size:15px;
-        }
+        <style>
+            div.facebook_search_container {
+                border: 2px solid grey;
+                width: 50%;
+                padding-top: 3px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-bottom: 15px;
+            }
+            #facebook_search_text {
+                font-size: 20px;
+                font-style: italic;
+                font-family: sans-serif;
+            }
+            .form_labels {
+                font-size:15px;
+            }
     </style>
-
     <script type="text/javascript">
 
         function hideLocationDistanceRow() {
@@ -42,6 +40,7 @@
         }        
 
     </script>
+    </head>
 
     <body onload="hideLocationDistanceRow()">
             <div class="facebook_search_container">
