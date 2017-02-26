@@ -20,26 +20,6 @@
                 font-size:15px;
             }
     </style>
-    <script type="text/javascript">
-
-        function hideLocationDistanceRow() {
-            var locationDistanceRow = document.getElementById('location_distance_input_row');
-            // hide the row by default
-            locationDistanceRow.style.visibility = "hidden";
-        }
-
-        function onElementSelected() {
-            var selectTag = document.getElementById("type_of_search");
-            var locationDistanceRow = document.getElementById('location_distance_input_row');
-
-            if (selectTag.value === "places") {
-                locationDistanceRow.style.visibility = "visible";
-            } else {
-                locationDistanceRow.style.visibility = "hidden";
-            }
-        }        
-
-    </script>
     </head>
 
     <body onload="hideLocationDistanceRow()">
@@ -56,11 +36,11 @@
                             <td><label for="type" class="form_labels">Type:&nbsp;</label></td>
                             <td>
                                 <select name="typeOfSearch" id="type_of_search" onchange="onElementSelected()">
-                                    <option value="users" selected="selected">Users</option>
-                                    <option value="pages">Pages</option>
-                                    <option value="events">Events</option>
-                                    <option value="places">Places</option>
-                                    <option value="groups">Groups</option>
+                                    <option value="user" selected="selected">Users</option>
+                                    <option value="page">Pages</option>
+                                    <option value="event">Events</option>
+                                    <option value="place">Places</option>
+                                    <option value="group">Groups</option>
                                 </select>
                             </td>
                         </tr>
@@ -77,5 +57,91 @@
                     </table>
                 </form>
             </div>
+        <script type="text/javascript">
+
+            var selectTag = document.getElementById("type_of_search");
+            var locationDistanceRow = document.getElementById('location_distance_input_row');
+
+            function hideLocationDistanceRow() {
+                // hide the row by default initially
+                <?php if(isset($_POST['typeOfSearch'])) :?>
+                    <?php 
+                        if ($_POST['typeOfSearch'] == "place") {
+                            echo 'locationDistanceRow.style.visibility = "visible";';
+                        } else {
+                            echo 'locationDistanceRow.style.visibility = "hidden";';
+                        }
+                    ?>
+                <?php else: ?>
+                    <?php echo 'locationDistanceRow.style.visibility = "hidden";'; ?>
+                <?php endif; ?>
+            }
+
+            function onElementSelected() {
+                if (selectTag.value === "place") {
+                    locationDistanceRow.style.visibility = "visible";
+                } else {
+                    locationDistanceRow.style.visibility = "hidden";
+                }
+            }
+
+            <?php if(isset($_POST["typeOfSearch"])) : ?>        
+                //selectTag.value = "group";
+                <?php
+                    $selectedTag = $_POST["typeOfSearch"];
+                    if ($selectedTag == "user") {
+                        echo 'selectTag.value = "user";';
+                    } else if ($selectedTag == "page") {
+                        echo 'selectTag.value = "page";';
+                    } else if ($selectedTag == "event") {
+                        echo 'selectTag.value = "event";';
+                    } else if ($selectedTag == "place") {
+                        echo 'selectTag.value = "place";';
+                    } else {
+                        echo 'selectTag.value = "group";';
+                    }
+                ?>
+            <?php endif; ?>
+        </script>
+        
     </body>
 </html>
+
+<?php 
+    require_once __DIR__.'/libs/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
+
+    $accessToken = 'EAAX3MCLefw0BAOf9gnHAbJCYUpuKNiVJ02QdZCqAlPZCbHXfLiq785YiCwXyHKVorn5AEbOmHLQchbNYdsTCekSZC8NP3ZCOqZAe581VQ83YhV7ZB98lrwBulRoqJhSlDjDfCsOTXJ6NwS9TZB5XMGWM2ojLSKoDde3jonUYzF33wZDZD';
+    $fb = new Facebook\Facebook([
+        'app_id' => '1679160999051021',
+        'app_secret' => 'ba0af0d2a6e5701eaaed56bf48c0be98',
+        'default_graph_version' => 'v2.8',
+    ]);
+    // $fb->setDefaultAccessToken($accessToken);
+    // $requestFB = $fb->request('GET', '/search');
+    // $requestFB->setParams([
+    //     'type' => 'user',
+    //     'q' => 'ninja',
+    // ]);
+
+    // try {
+    //     $response = $fb->getClient()->sendRequest($requestFB);
+    // } catch(Facebook\Exceptions\FacebookResponseException $e) {
+    //     // When Graph returns an error
+    //     echo 'Graph returned an error: ' . $e->getMessage();
+    //     exit;
+    // } catch(Facebook\Exceptions\FacebookSDKException $e) {
+    //     // When validation fails or other local issues
+    //     echo 'Facebook SDK returned an error: ' . $e->getMessage();
+    //     exit;
+    // }
+    
+    // $graphNode = $response->getGraphEdge();
+    // $array = json_decode($graphNode);
+    // echo "<pre>";
+    // echo json_encode($array, JSON_PRETTY_PRINT);
+    // echo "</pre>";
+
+    // setting the keyword if not empty
+
+
+?>
