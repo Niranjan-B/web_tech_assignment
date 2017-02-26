@@ -52,7 +52,10 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="Search"/><input type="reset" value="Clear"/></td>
+                            <td>
+                                <input type="submit" value="Search"/>
+                                <input type="reset" value="Clear" onclick="removePlaceFields()"/>
+                            </td>
                         </tr>
                     </table>
                 </form>
@@ -61,6 +64,16 @@
 
             var selectTag = document.getElementById("type_of_search");
             var locationDistanceRow = document.getElementById('location_distance_input_row');
+            var keywordTextField = document.getElementById('keyword');
+            var locationTextField = document.getElementById('location');
+            var distanceTextField = document.getElementById('distance');
+
+            function removePlaceFields() {
+                // hide the row containing location and distance text fields if visible
+                if (locationDistanceRow.style.visibility == "visible") {
+                    locationDistanceRow.style.visibility = "hidden";
+                }
+            }
 
             function hideLocationDistanceRow() {
                 // hide the row by default initially
@@ -75,6 +88,12 @@
                 <?php else: ?>
                     <?php echo 'locationDistanceRow.style.visibility = "hidden";'; ?>
                 <?php endif; ?>
+
+                // setting the kwyword text field after form submission if keyword exists
+                <?php if(isset($_POST["keyword"])) : ?>
+                    <?php $keyword = strval($_POST["keyword"]);
+                    echo 'keywordTextField.value = '."\"$keyword\";"; ?>
+                <?php endif; ?>
             }
 
             function onElementSelected() {
@@ -83,10 +102,12 @@
                 } else {
                     locationDistanceRow.style.visibility = "hidden";
                 }
+                locationTextField.value = "";
+                distanceTextField.value = "";
             }
 
+            // setting the selected category (select tag) as it was earlier after the form submission
             <?php if(isset($_POST["typeOfSearch"])) : ?>        
-                //selectTag.value = "group";
                 <?php
                     $selectedTag = $_POST["typeOfSearch"];
                     if ($selectedTag == "user") {
@@ -97,11 +118,20 @@
                         echo 'selectTag.value = "event";';
                     } else if ($selectedTag == "place") {
                         echo 'selectTag.value = "place";';
+                        if (isset($_POST['location'])) {
+                            $location = strval($_POST['location']);
+                            echo 'locationTextField.value = '."\"$location\";";
+                        }
+                        if (isset($_POST['distance'])) {
+                            $distance = strval($_POST['distance']);
+                            echo 'distanceTextField.value = '."\"$distance\";";
+                        }
                     } else {
                         echo 'selectTag.value = "group";';
                     }
                 ?>
             <?php endif; ?>
+
         </script>
         
     </body>
