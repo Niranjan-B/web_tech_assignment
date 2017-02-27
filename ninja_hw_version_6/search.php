@@ -19,6 +19,14 @@
             .form_labels {
                 font-size:15px;
             }
+            th.tableHeader {
+                border: 2px solid grey;
+                text-align: left;
+            }
+            img.profilePhoto {
+                width: 40px;
+                height: 30px;
+            }
     </style>
     </head>
 
@@ -30,7 +38,7 @@
                     <table>
                         <tr>
                             <td><label for="keyword" class="form_labels">Keyword:&nbsp;</label></td>
-                            <td><input type="text" id="keyword" name="keyword" required/></td>
+                            <td><input type="text" id="keyword" name="keyword" title="This cant be left empty" required/></td>
                         </tr>
                         <tr>
                             <td><label for="type" class="form_labels">Type:&nbsp;</label></td>
@@ -53,13 +61,14 @@
                         <tr>
                             <td></td>
                             <td>
-                                <input type="submit" value="Search"/>
-                                <input type="reset" value="Clear" onclick="removePlaceFields()"/>
+                                <input type="submit" value="Search" name="submit"/>
+                                <input type="reset" value="Clear" name="reset" onclick="removePlaceFields()"/>
                             </td>
                         </tr>
                     </table>
                 </form>
             </div>
+            <br>
         <script type="text/javascript">
 
             var selectTag = document.getElementById("type_of_search");
@@ -68,11 +77,22 @@
             var locationTextField = document.getElementById('location');
             var distanceTextField = document.getElementById('distance');
 
+            function openImageInNewTab(url) {
+                //var imgUrl = url;
+                // getting the url value and opening a new tab
+                console.log("url = " + url);
+                
+            }
+
             function removePlaceFields() {
                 // hide the row containing location and distance text fields if visible
                 if (locationDistanceRow.style.visibility == "visible") {
                     locationDistanceRow.style.visibility = "hidden";
                 }
+                var resultTable = document.getElementById('resultTable');
+                if (resultTable !== null) {
+                    resultTable.remove();
+                } 
             }
 
             function hideLocationDistanceRow() {
@@ -133,7 +153,6 @@
             <?php endif; ?>
 
         </script>
-        
     </body>
 </html>
 
@@ -146,32 +165,76 @@
         'app_secret' => 'ba0af0d2a6e5701eaaed56bf48c0be98',
         'default_graph_version' => 'v2.8',
     ]);
-    // $fb->setDefaultAccessToken($accessToken);
-    // $requestFB = $fb->request('GET', '/search');
-    // $requestFB->setParams([
-    //     'type' => 'user',
-    //     'q' => 'ninja',
-    // ]);
+    $fb->setDefaultAccessToken($accessToken);
+    $requestFB = $fb->request('GET', '/search');
 
-    // try {
-    //     $response = $fb->getClient()->sendRequest($requestFB);
-    // } catch(Facebook\Exceptions\FacebookResponseException $e) {
-    //     // When Graph returns an error
-    //     echo 'Graph returned an error: ' . $e->getMessage();
-    //     exit;
-    // } catch(Facebook\Exceptions\FacebookSDKException $e) {
-    //     // When validation fails or other local issues
-    //     echo 'Facebook SDK returned an error: ' . $e->getMessage();
-    //     exit;
-    // }
+    function processOutput($jsonArray) {
+        
+        echo "<table id='resultTable' align='center' style='border: 2px solid grey; border-collapse:collapse;'>";
+        echo "<tr>";
+        echo "<th class='tableHeader' style='width:240px;'>Profile Photo</th>";
+        echo "<th class='tableHeader' style='width:380px;'>Name</th>";
+        echo "<th class='tableHeader' style='width:180px;'>Details</th>";
+        echo "</tr>";
+        
+        foreach ($jsonArray as $graphNode) {
+            echo "<tr>";
+            echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab()'/></td>";
+            echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
+            echo "<td style='width:180px; border:2px solid grey;'><a href='".$graphNode['id']."'>Details</a></td>";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+
+        // foreach ($jsonArray as $node) {
+
+        // }
+
+    }
+
+    function executeNonPlaceRequest() {
+        try {
+            global $fb, $requestFB;
+            $response = $fb->getClient()->sendRequest($requestFB);
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+             // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+             // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
     
-    // $graphNode = $response->getGraphEdge();
-    // $array = json_decode($graphNode);
-    // echo "<pre>";
-    // echo json_encode($array, JSON_PRETTY_PRINT);
-    // echo "</pre>";
+        $graphEdge = $response->getGraphEdge();
+        $array = json_decode($graphEdge, true);
+        
+        if (sizeof($array) == 0) {
+            // display empty search result 
+        } else {
+            // function to print the table
+            processOutput($array);
+        }
+    }
 
-    // setting the keyword if not empty
+    // check if the form is submitted
+    if (isset($_POST['submit'])) {
+        if ($selectedTag == "place") {
+            // first call Google API to get the cooridantes and then construct the request array
+        } else {
+            $requestFB -> setParams([
+                "type" => "$selectedTag",
+                "q" => "$keyword",
+                "fields" => "picture.width(700).height(700),name,id",
+            ]);
+            executeNonPlaceRequest();
+        }
+    }
 
-
+    // check if clear is clicked
+    if (isset($_POST['reset'])) {
+        echo "i was clicked";
+    }
+     
 ?>
