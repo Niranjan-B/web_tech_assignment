@@ -78,9 +78,15 @@
             var distanceTextField = document.getElementById('distance');
 
             function openImageInNewTab(url) {
-                //var imgUrl = url;
                 // getting the url value and opening a new tab
                 console.log("url = " + url);
+                var imageWindow = window.open("", "_blank");
+                if (imageWindow !== null) {
+                    var htmlString = "";
+                    htmlString += "<img src = " + url + " style = 'width: 550px; height:550px;' />";
+                    imageWindow.document.write(htmlString);   
+                    imageWindow.focus();
+                }
                 
             }
 
@@ -178,8 +184,10 @@
         echo "</tr>";
         
         foreach ($jsonArray as $graphNode) {
+            $imgUrl = $graphNode['picture']['url'];
+            $imgUrl = strval($imgUrl);
             echo "<tr>";
-            echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab()'/></td>";
+            echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab(\"$imgUrl\")'/></td>";
             echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
             echo "<td style='width:180px; border:2px solid grey;'><a href='".$graphNode['id']."'>Details</a></td>";
             echo "</tr>";
