@@ -27,6 +27,19 @@
                 width: 40px;
                 height: 30px;
             }
+            a {
+                text-decoration: underline;
+                color: blue;
+            }
+            a:hover {
+                cursor:pointer;
+            }
+            a:active {
+                color: red;
+            }
+            a:visited {
+                color: red;
+            }
     </style>
     </head>
 
@@ -79,7 +92,6 @@
 
             function openImageInNewTab(url) {
                 // getting the url value and opening a new tab
-                console.log("url = " + url);
                 var imageWindow = window.open("", "_blank");
                 if (imageWindow !== null) {
                     var htmlString = "";
@@ -130,6 +142,42 @@
                 }
                 locationTextField.value = "";
                 distanceTextField.value = "";
+            }
+
+            function parseDetailTable(id) {
+                console.log(id);
+
+                // 
+                //     global $fb, $requestFB;
+
+                //     $requestFB = $fb->request('GET', '/'.$id);
+                //     $requestFB -> setParams([
+                //         "fields" => "id,name,albums.limit(5){name,  photos.limit(2){name, picture}}, picture.width(700).height(700), posts.limit(5)",
+                //     ]);
+
+                //     try {
+                //         $response = $fb->getClient()->sendRequest($requestFB);
+                //     } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                //         // When Graph returns an error
+                //         echo 'Graph returned an error: ' . $e->getMessage();
+                //         exit;
+                //     } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                //         // When validation fails or other local issues
+                //         echo 'Facebook SDK returned an error: ' . $e->getMessage();
+                //         exit;
+                //     }
+    
+                //     $graphEdge = $response->getGraphEdge();
+                //     $array = json_decode($graphEdge, true);
+                // ?>
+            }
+
+            function hideResultTable(id) {
+                var resultTable = document.getElementById('resultTable');
+                if (resultTable !== null) {
+                    resultTable.remove();
+                    parseDetailTable(id);
+                }
             }
 
             // setting the selected category (select tag) as it was earlier after the form submission
@@ -186,18 +234,16 @@
         foreach ($jsonArray as $graphNode) {
             $imgUrl = $graphNode['picture']['url'];
             $imgUrl = strval($imgUrl);
+            $id = $graphNode['id'];
+            $id = strval($id);
             echo "<tr>";
             echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab(\"$imgUrl\")'/></td>";
             echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
-            echo "<td style='width:180px; border:2px solid grey;'><a href='".$graphNode['id']."'>Details</a></td>";
+            echo "<td style='width:180px; border:2px solid grey;'><a onclick='hideResultTable(\"$id\")'>Details</a></td>";
             echo "</tr>";
         }
 
         echo "</table>";
-
-        // foreach ($jsonArray as $node) {
-
-        // }
 
     }
 
@@ -240,9 +286,4 @@
         }
     }
 
-    // check if clear is clicked
-    if (isset($_POST['reset'])) {
-        echo "i was clicked";
-    }
-     
 ?>
