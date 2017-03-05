@@ -328,6 +328,31 @@
         }
     }
 
+    // function to return URL for the given ID 
+    function getUrlForId($id) {
+        global $fb;
+
+        $fbRequest = $fb->request('GET', '/'.$id);
+        $fbRequest -> setParams([
+            "fields" => "images",
+        ]);
+
+        try {
+            $picResponse = $fb->getClient()->sendRequest($fbRequest);
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+             // When Graph returns an error
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+             // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+        $picJSON = $picResponse->getGraphNode();
+        $picUrl = json_decode($picJSON, true);
+        return $picUrl['images'][0]['source'];
+    }
+
     // process the detail page and display it when clicked on detail
     function displayDetailPage($jsonData) {
 
@@ -365,12 +390,16 @@
                         echo "<td style='padding-left:5px;'><a style='text-align:left;' onclick='showHideAlbumPhotos(\"albumId$i\")'>".$jsonData['albums'][$i]['name']."</a></td>";
                         echo "</tr>";
                         echo "<tr id=albumId".$i." style='width:100%; padding-left:5px; border:1px solid silver; padding-left:5px; padding-top:5px; visibility:collapse'>";
-                        $imageURLOne = $jsonData['albums'][$i]['photos'][0]['picture'];
-                        $imageURLOne = strval($imageURLOne);
-                        $imageURLTwo = $jsonData['albums'][$i]['photos'][1]['picture'];
-                        $imageURLTwo = strval($imageURLTwo);
-                        echo "<td style='padding-left:5px;'><img src='".$jsonData['albums'][$i]['photos'][0]['picture']."' style='width:80px; height:80px; margin-right:5px;' onclick='openImageInNewTab(\"$imageURLOne\")'/>";
-                        echo "<img src='".$jsonData['albums'][$i]['photos'][1]['picture']."' style='width:80px; height:80px;' onclick='openImageInNewTab(\"$imageURLTwo\")'/></td>";
+                        $imageIdOne = $jsonData['albums'][$i]['photos'][0]['id'];
+                        $imageURLOne = getUrlForId($imageIdOne);
+                        $imageIdTwo = $jsonData['albums'][$i]['photos'][1]['id'];
+                        $imageURLTwo = getUrlForId($imageIdTwo);
+                        if ($imageURLOne != null) {
+                            echo "<td style='padding-left:5px;'><img src='".$jsonData['albums'][$i]['photos'][0]['picture']."' style='width:80px; height:80px; margin-right:5px;' onclick='openImageInNewTab(\"$imageURLOne\")'/>";
+                        }
+                        if ($imageURLTwo != null) {
+                            echo "<img src='".$jsonData['albums'][$i]['photos'][1]['picture']."' style='width:80px; height:80px;' onclick='openImageInNewTab(\"$imageURLTwo\")'/></td>";
+                        }
                         echo "</tr>";
                     }
                     echo "</table>";
@@ -429,7 +458,7 @@
 
         $requestFB = $fb->request('GET', '/'.$id);
         $requestFB -> setParams([
-        "fields" => "id,name,albums.limit(5){name,  photos.limit(2){name, picture.width(700).height(700)}}, picture.width(700).height(700), posts.limit(5)",
+        "fields" => "id,name,albums.limit(5){name,  photos.limit(2){name, picture}}, picture.width(700).height(700), posts.limit(5)",
          ]);
 
          try {
