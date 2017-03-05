@@ -308,6 +308,9 @@
         
         if (sizeof($array) == 0) {
             // display empty search result 
+            echo "<div style='width:60%; height:23px; background:silver; border:2px solid grey; margin-left:auto; margin-right:auto; padding-top:3px;'><center>";
+            echo "No Records found";
+            echo "</center></div>";
         } else {
             // function to print the table
             processOutput($array);
@@ -361,6 +364,18 @@
         // check if albums are empty
         if (sizeof($jsonData['albums']) == 0) {
             // display empty albums here
+            echo "<tr>";
+                echo "<td style='height:1px;'>";
+                echo "</td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td style='border:2px solid grey; background:silver;'>";
+            echo "<center>";
+            echo "No albums found";
+            echo "</center>";
+            echo "</td>";
+            echo "</tr>";
         } else {
 
             // hack code to generate proper output
@@ -370,7 +385,7 @@
             echo "</tr>";
 
             echo "<tr>";
-                echo "<td >";
+                echo "<td>";
                     echo "<div style='width:100%; height:23px; background:silver; padding-top:3px;'>";
                     echo "<center>";
                     $albumClick = "album";
@@ -411,7 +426,13 @@
 
         // check if posts are empty
         if (sizeof($jsonData['posts']) == 0) {
-            // display empty posts here
+            echo "<tr>";
+                echo "<td style='border:2px solid grey; background:silver;'>";
+                echo "<center>";
+                echo "No Posts found";
+                echo "</center>";
+                echo "</td>";
+            echo "</tr>";
         } else {
             echo "<tr>";
                 echo "<td>";
