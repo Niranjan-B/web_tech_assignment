@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    date_default_timezone_set('America/Los_Angeles');
 ?>
 <!DOCTYPE html>
 <html>
@@ -154,32 +155,8 @@
             }
 
             function parseDetailTable(id) {
-                console.log(id);
+                // reloading the page with a new URL
                 window.location.href = "http://localhost/search.php?id="+id;
-
-                // 
-                //     global $fb, $requestFB;
-
-                //     $requestFB = $fb->request('GET', '/'.$id);
-                //     $requestFB -> setParams([
-                //         "fields" => "id,name,albums.limit(5){name,  photos.limit(2){name, picture}}, picture.width(700).height(700), posts.limit(5)",
-                //     ]);
-
-                //     try {
-                //         $response = $fb->getClient()->sendRequest($requestFB);
-                //     } catch(Facebook\Exceptions\FacebookResponseException $e) {
-                //         // When Graph returns an error
-                //         echo 'Graph returned an error: ' . $e->getMessage();
-                //         exit;
-                //     } catch(Facebook\Exceptions\FacebookSDKException $e) {
-                //         // When validation fails or other local issues
-                //         echo 'Facebook SDK returned an error: ' . $e->getMessage();
-                //         exit;
-                //     }
-    
-                //     $graphEdge = $response->getGraphEdge();
-                //     $array = json_decode($graphEdge, true);
-                // ?>
             }
 
             function hideResultTable(id) {
@@ -187,6 +164,34 @@
                 if (resultTable !== null) {
                     resultTable.remove();
                     parseDetailTable(id);
+                }
+            }
+
+            function showHideAlbumPhotos(albumId) {
+                if (document.getElementById(albumId).style.visibility === "visible") {
+                    document.getElementById(albumId).style.visibility = "collapse";
+                } else {
+                    document.getElementById(albumId).style.visibility = "visible";
+                }
+            }
+
+            function hideShowAlbumsPosts(genericId) {
+                if (genericId === "album") {
+                    if (document.getElementById("albumsDisplay").style.visibility === "collapse") {
+                        document.getElementById("albumsDisplay").style.visibility = "visible";   
+                        document.getElementById("postsDisplay").style.visibility = "collapse"; 
+                    } else {
+                        document.getElementById("albumsDisplay").style.visibility = "collapse";
+                        document.getElementById("postsDisplay").style.visibility = "visible";
+                    }
+                } else {    
+                    if (document.getElementById("postsDisplay").style.visibility === "collapse") {
+                        document.getElementById("postsDisplay").style.visibility = "visible";
+                        document.getElementById("albumsDisplay").style.visibility = "collapse";
+                    } else {
+                        document.getElementById("albumsDisplay").style.visibility = "visible";
+                        document.getElementById("postsDisplay").style.visibility = "collapse";
+                    }
                 }
             }
 
@@ -321,5 +326,126 @@
             ]);
             executeNonPlaceRequest();
         }
+    }
+
+    // process the detail page and display it when clicked on detail
+    function displayDetailPage($jsonData) {
+
+        echo "<table style='width:60%; margin-left:auto; margin-right:auto;>";
+
+        // check if albums are empty
+        if (sizeof($jsonData['albums']) == 0) {
+            // display empty albums here
+        } else {
+
+            // hack code to generate proper output
+            echo "<tr>";
+                echo "<td style='height:1px;'>";
+                echo "</td>";
+            echo "</tr>";
+
+            echo "<tr>";
+                echo "<td >";
+                    echo "<div style='width:100%; height:23px; background:silver; padding-top:3px;'>";
+                    echo "<center>";
+                    $albumClick = "album";
+                    echo "<a onclick='hideShowAlbumsPosts(\"$albumClick\")'>Albums</a>";
+                    echo "<center>";
+                    echo "</div>";
+                echo "</td>";
+            echo "</tr>";
+
+            echo "<tr><td><br></td></tr>";
+
+            echo "<tr id='albumsDisplay'>";
+                echo "<td>";
+                    echo "<table style='width:100%; border:1px solid silver; border-collapse:collapse'>";
+                    for ($i=0; $i<sizeof($jsonData['albums']); $i++) {
+                        echo "<tr style='padding-left:5px;'>";
+                        echo "<td style='padding-left:5px;'><a style='text-align:left;' onclick='showHideAlbumPhotos(\"albumId$i\")'>".$jsonData['albums'][$i]['name']."</a></td>";
+                        echo "</tr>";
+                        echo "<tr id=albumId".$i." style='width:100%; padding-left:5px; border:1px solid silver; padding-left:5px; padding-top:5px; visibility:collapse'>";
+                        $imageURLOne = $jsonData['albums'][$i]['photos'][0]['picture'];
+                        $imageURLOne = strval($imageURLOne);
+                        $imageURLTwo = $jsonData['albums'][$i]['photos'][1]['picture'];
+                        $imageURLTwo = strval($imageURLTwo);
+                        echo "<td style='padding-left:5px;'><img src='".$jsonData['albums'][$i]['photos'][0]['picture']."' style='width:80px; height:80px; margin-right:5px;' onclick='openImageInNewTab(\"$imageURLOne\")'/>";
+                        echo "<img src='".$jsonData['albums'][$i]['photos'][1]['picture']."' style='width:80px; height:80px;' onclick='openImageInNewTab(\"$imageURLTwo\")'/></td>";
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                echo "</td>";
+            echo "</tr>";
+        }
+
+        echo "<tr><td><br></td></tr>";        
+
+        // check if posts are empty
+        if (sizeof($jsonData['posts']) == 0) {
+            // display empty posts here
+        } else {
+            echo "<tr>";
+                echo "<td>";
+                    echo "<center>";
+                    $albumClick = "posts";
+                    echo "<div style='width:100%; height:23px; background:silver; padding-top:3px;'>";
+                    echo "<a onclick='hideShowAlbumsPosts(\"$albumClick\")'>Posts</a>";
+                    echo "</div>";
+                    echo "</center>";
+                echo "</td>";
+            echo "</tr>";
+
+            echo "<tr><td><br></td></tr>";
+
+            echo "<tr id='postsDisplay' style='visibility:collapse;'>";
+                echo "<td>";
+                    echo "<table style='width:100%; border:1px solid silver; border-collapse:collapse'>";
+                    echo "<tr>";
+                    echo "<td style='padding-left:5px;'><b>Message</b></td>";
+                    echo "</tr>";
+
+                    for ($i=0; $i<sizeof($jsonData['albums']); $i++) {
+                        echo "<tr style='padding-left:5px;'>";
+                        if ($jsonData['posts'][$i]['message'] != null) {
+                            echo "<td style='padding-left:5px; border:1px solid silver;'>".$jsonData['posts'][$i]['message']."</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    echo "</table>";
+                echo "</td>";
+            echo "</tr>";
+
+        }
+
+        echo "</table>";
+    }
+
+    // checking if the id field is set
+    if (isset($_GET['id'])) {
+        
+        global $fb;
+        $id = $_GET['id'];
+        $id = strval($id);
+
+        $requestFB = $fb->request('GET', '/'.$id);
+        $requestFB -> setParams([
+        "fields" => "id,name,albums.limit(5){name,  photos.limit(2){name, picture.width(700).height(700)}}, picture.width(700).height(700), posts.limit(5)",
+         ]);
+
+         try {
+                 $response = $fb->getClient()->sendRequest($requestFB);
+             } catch(Facebook\Exceptions\FacebookResponseException $e) {
+                 // When Graph returns an error
+                 echo 'Graph returned an error: ' . $e->getMessage();
+                 exit;
+             } catch(Facebook\Exceptions\FacebookSDKException $e) {
+                 // When validation fails or other local issues
+                 echo 'Facebook SDK returned an error: ' . $e->getMessage();
+                 exit;
+             }
+    
+             $graphNode = $response->getGraphNode();
+             $array = json_decode($graphNode, true);
+             displayDetailPage($array);
     }
 ?>
