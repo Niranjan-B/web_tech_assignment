@@ -1,3 +1,6 @@
+<?php 
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,7 +50,7 @@
             <div class="facebook_search_container">
                 <center><span id="facebook_search_text">Facebook Search</span></center>
                 <hr style="color: grey; margin-left: 10px; margin-right:10px;">
-                <form method="post" action="" style="padding-left:10px;" autocomplete="on">
+                <form method="post" action="search.php" style="padding-left:10px;" autocomplete="on">
                     <table>
                         <tr>
                             <td><label for="keyword" class="form_labels">Keyword:&nbsp;</label></td>
@@ -129,9 +132,15 @@
 
                 // setting the kwyword text field after form submission if keyword exists
                 <?php if(isset($_POST["keyword"])) : ?>
-                    <?php $keyword = strval($_POST["keyword"]);
-                    echo 'keywordTextField.value = '."\"$keyword\";"; ?>
-                <?php endif; ?>
+                    <?php 
+                        $keyword = strval($_POST["keyword"]);
+                        $_SESSION['searchedKeyword'] = $keyword;
+                        echo 'keywordTextField.value = '."\"$keyword\";"; ?>
+                <?php elseif(isset($_GET["id"])) : ?>
+                    <?php
+                        $searchedKeyword = $_SESSION['searchedKeyword'];
+                        echo 'keywordTextField.value = '."\"$searchedKeyword\";"; ?>
+                <?php endif;?>
             }
 
             function onElementSelected() {
@@ -146,6 +155,7 @@
 
             function parseDetailTable(id) {
                 console.log(id);
+                window.location.href = "http://localhost/search.php?id="+id;
 
                 // 
                 //     global $fb, $requestFB;
@@ -184,6 +194,7 @@
             <?php if(isset($_POST["typeOfSearch"])) : ?>        
                 <?php
                     $selectedTag = $_POST["typeOfSearch"];
+                    $_SESSION['typeOfSearch'] = $selectedTag;
                     if ($selectedTag == "user") {
                         echo 'selectTag.value = "user";';
                     } else if ($selectedTag == "page") {
@@ -194,10 +205,36 @@
                         echo 'selectTag.value = "place";';
                         if (isset($_POST['location'])) {
                             $location = strval($_POST['location']);
+                            $_SESSION['location'] = $location;
                             echo 'locationTextField.value = '."\"$location\";";
                         }
                         if (isset($_POST['distance'])) {
                             $distance = strval($_POST['distance']);
+                            $_SESSION['distance'] = $distance;
+                            echo 'distanceTextField.value = '."\"$distance\";";
+                        }
+                    } else {
+                        echo 'selectTag.value = "group";';
+                    }
+                ?>
+            <?php elseif(isset($_GET['id'])) : ?>
+                <?php 
+                    // duplicate code here -- bad programming :( -- not really duplicate
+
+                    if ($_SESSION['typeOfSearch'] == "user") {
+                        echo 'selectTag.value = "user";';
+                    } else if ($_SESSION['typeOfSearch'] == "page") {
+                        echo 'selectTag.value = "page";';
+                    } else if ($_SESSION['typeOfSearch'] == "event") {
+                        echo 'selectTag.value = "event";';
+                    } else if ($_SESSION['typeOfSearch'] == "place") {
+                        echo 'selectTag.value = "place";';
+                        if (isset($_SESSION['location'])) {
+                            $location = $_SESSION['location'];
+                            echo 'locationTextField.value = '."\"$location\";";
+                        }
+                        if (isset($_SESSION['location'])) {
+                            $distance = $_SESSION['location'];
                             echo 'distanceTextField.value = '."\"$distance\";";
                         }
                     } else {
@@ -285,5 +322,4 @@
             executeNonPlaceRequest();
         }
     }
-
 ?>
