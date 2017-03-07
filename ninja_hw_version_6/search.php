@@ -112,9 +112,13 @@
                     locationDistanceRow.style.visibility = "hidden";
                 }
                 var resultTable = document.getElementById('resultTable');
+                var detailTable = document.getElementById('detailTable');
                 if (resultTable !== null) {
                     resultTable.remove();
                 } 
+                if (detailTable !== null) {
+                    detailTable.remove();
+                }
             }
 
             function hideLocationDistanceRow() {
@@ -179,17 +183,19 @@
                 if (genericId === "album") {
                     if (document.getElementById("albumsDisplay").style.visibility === "collapse") {
                         document.getElementById("albumsDisplay").style.visibility = "visible";   
-                        document.getElementById("postsDisplay").style.visibility = "collapse"; 
+                        if (document.getElementById("postsDisplay") != null) {
+                            document.getElementById("postsDisplay").style.visibility = "collapse";
+                        } 
                     } else {
                         document.getElementById("albumsDisplay").style.visibility = "collapse";
-                        document.getElementById("postsDisplay").style.visibility = "visible";
                     }
                 } else {    
                     if (document.getElementById("postsDisplay").style.visibility === "collapse") {
                         document.getElementById("postsDisplay").style.visibility = "visible";
-                        document.getElementById("albumsDisplay").style.visibility = "collapse";
+                        if (document.getElementById("albumsDisplay") != null) {
+                            document.getElementById("albumsDisplay").style.visibility = "collapse";
+                        }
                     } else {
-                        document.getElementById("albumsDisplay").style.visibility = "visible";
                         document.getElementById("postsDisplay").style.visibility = "collapse";
                     }
                 }
@@ -264,32 +270,50 @@
     $fb->setDefaultAccessToken($accessToken);
     $requestFB = $fb->request('GET', '/search');
 
-    function processOutput($jsonArray) {
+    function processOutput($jsonArray, $selectedTag) {
         
         echo "<table id='resultTable' align='center' style='border: 2px solid grey; border-collapse:collapse;'>";
         echo "<tr>";
         echo "<th class='tableHeader' style='width:240px;'>Profile Photo</th>";
         echo "<th class='tableHeader' style='width:380px;'>Name</th>";
-        echo "<th class='tableHeader' style='width:180px;'>Details</th>";
+        if ($selectedTag == "event") {
+            echo "<th class='tableHeader' style='width:180px;'>Place</th>";
+        } else {
+            echo "<th class='tableHeader' style='width:180px;'>Details</th>";
+        }
         echo "</tr>";
         
-        foreach ($jsonArray as $graphNode) {
-            $imgUrl = $graphNode['picture']['url'];
-            $imgUrl = strval($imgUrl);
-            $id = $graphNode['id'];
-            $id = strval($id);
-            echo "<tr>";
-            echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab(\"$imgUrl\")'/></td>";
-            echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
-            echo "<td style='width:180px; border:2px solid grey;'><a onclick='hideResultTable(\"$id\")'>Details</a></td>";
-            echo "</tr>";
+        if ($selectedTag == "event") {
+            foreach ($jsonArray as $graphNode) {
+                $imgUrl = $graphNode['picture']['url'];
+                $imgUrl = strval($imgUrl);
+                $location = $graphNode['place']['name'];
+                $location = strval($location);
+                echo "<tr>";
+                echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab(\"$imgUrl\")'/></td>";
+                echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
+                echo "<td style='width:180px; border:2px solid grey;'>".$location."</td>";
+                echo "</tr>";
+            }
+        } else {
+            foreach ($jsonArray as $graphNode) {
+                $imgUrl = $graphNode['picture']['url'];
+                $imgUrl = strval($imgUrl);
+                $id = $graphNode['id'];
+                $id = strval($id);
+                echo "<tr>";
+                echo "<td style='width:240px; border:2px solid grey;'><img src='".$graphNode['picture']['url']."' class='profilePhoto' onclick='openImageInNewTab(\"$imgUrl\")'/></td>";
+                echo "<td style='width:380px; border:2px solid grey;'>".$graphNode['name']."</td>";
+                echo "<td style='width:180px; border:2px solid grey;'><a onclick='hideResultTable(\"$id\")'>Details</a></td>";
+                echo "</tr>";
+            }
         }
 
         echo "</table>";
 
     }
 
-    function executeNonPlaceRequest() {
+    function executeNonPlaceRequest($selectedTag) {
         try {
             global $fb, $requestFB;
             $response = $fb->getClient()->sendRequest($requestFB);
@@ -313,7 +337,7 @@
             echo "</center></div>";
         } else {
             // function to print the table
-            processOutput($array);
+            processOutput($array, $selectedTag);
         }
     }
 
@@ -321,13 +345,20 @@
     if (isset($_POST['submit'])) {
         if ($selectedTag == "place") {
             // first call Google API to get the cooridantes and then construct the request array
+        } else if ($selectedTag == "event") {
+            $requestFB -> setParams([
+                "type" => "$selectedTag",
+                "q" => "$keyword",
+                "fields" => "picture.width(700).height(700),name,place",
+            ]);
+            executeNonPlaceRequest("event");
         } else {
             $requestFB -> setParams([
                 "type" => "$selectedTag",
                 "q" => "$keyword",
                 "fields" => "picture.width(700).height(700),name,id",
             ]);
-            executeNonPlaceRequest();
+            executeNonPlaceRequest("");
         }
     }
 
@@ -344,11 +375,11 @@
             $picResponse = $fb->getClient()->sendRequest($fbRequest);
         } catch(Facebook\Exceptions\FacebookResponseException $e) {
              // When Graph returns an error
-            echo 'Graph returned an error: ' . $e->getMessage();
+            //echo 'Graph returned an error: ' . $e->getMessage();
             exit;
         } catch(Facebook\Exceptions\FacebookSDKException $e) {
              // When validation fails or other local issues
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            //echo 'Facebook SDK returned an error: ' . $e->getMessage();
             exit;
         }
         $picJSON = $picResponse->getGraphNode();
@@ -359,7 +390,7 @@
     // process the detail page and display it when clicked on detail
     function displayDetailPage($jsonData) {
 
-        echo "<table style='width:60%; margin-left:auto; margin-right:auto;>";
+        echo "<table id='detailTable' style='width:60%; margin-left:auto; margin-right:auto;'>";
 
         // check if albums are empty
         if (sizeof($jsonData['albums']) == 0) {
@@ -395,9 +426,9 @@
                 echo "</td>";
             echo "</tr>";
 
-            echo "<tr><td><br></td></tr>";
+            echo "<tr><td></td></tr>";
 
-            echo "<tr id='albumsDisplay'>";
+            echo "<tr id='albumsDisplay' style='visibility:collapse;'>";
                 echo "<td>";
                     echo "<table style='width:100%; border:1px solid silver; border-collapse:collapse'>";
                     for ($i=0; $i<sizeof($jsonData['albums']); $i++) {
@@ -422,7 +453,7 @@
             echo "</tr>";
         }
 
-        echo "<tr><td><br></td></tr>";        
+        echo "<tr><td></td></tr>";        
 
         // check if posts are empty
         if (sizeof($jsonData['posts']) == 0) {
@@ -496,6 +527,9 @@
     
              $graphNode = $response->getGraphNode();
              $array = json_decode($graphNode, true);
+            //  echo "<pre>";
+            //  print_r($array);
+            //  echo "</pre>";
              displayDetailPage($array);
     }
 ?>
