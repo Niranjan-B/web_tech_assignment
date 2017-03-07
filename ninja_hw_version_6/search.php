@@ -131,11 +131,19 @@
                             echo 'locationDistanceRow.style.visibility = "hidden";';
                         }
                     ?>
+                <?php elseif(isset($_GET["id"])): ?>
+                    <?php 
+                        if ($_SESSION['typeOfSearch'] == "place") {
+                            echo 'locationDistanceRow.style.visibility = "visible";';
+                        } else {
+                            echo 'locationDistanceRow.style.visibility = "hidden";';
+                        }
+                    ?>
                 <?php else: ?>
                     <?php echo 'locationDistanceRow.style.visibility = "hidden";'; ?>
                 <?php endif; ?>
 
-                // setting the kwyword text field after form submission if keyword exists
+                // setting the keyword text field after form submission if keyword exists
                 <?php if(isset($_POST["keyword"])) : ?>
                     <?php 
                         $keyword = strval($_POST["keyword"]);
@@ -245,7 +253,7 @@
                             echo 'locationTextField.value = '."\"$location\";";
                         }
                         if (isset($_SESSION['location'])) {
-                            $distance = $_SESSION['location'];
+                            $distance = $_SESSION['distance'];
                             echo 'distanceTextField.value = '."\"$distance\";";
                         }
                     } else {
@@ -313,6 +321,22 @@
 
     }
 
+    function getLatLong($address) {
+        $content = '';
+
+        try{
+            global $content;
+            $address = strval($address);
+            $address = preg_replace('/\s+/', '', $address);
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?address=$address";
+            $content = file_get_contents($url);
+        } catch(Exception $e) {
+
+        }
+        $addressJson = json_decode($content, true);
+        return $addressJson['results']['0']['geometry']['location'];
+    }
+
     function executeNonPlaceRequest($selectedTag) {
         try {
             global $fb, $requestFB;
@@ -344,7 +368,32 @@
     // check if the form is submitted
     if (isset($_POST['submit'])) {
         if ($selectedTag == "place") {
-            // first call Google API to get the cooridantes and then construct the request array
+            
+            if ($_POST['location'] && $_POST['distance']) {
+                // call google API first, get the coordinates and then contruct the FB URL
+                
+                $latLongJson = getLatLong($_POST['location']);
+                $center = $latLongJson['lat'].','.$latLongJson['lng'];
+                $distance = $_POST['distance'];
+
+                $requestFB -> setParams([
+                    "type" => "$selectedTag",
+                    "q" => "$keyword",
+                    "center" => "$center",
+                    "distance" => "$distance",
+                    "fields" => "picture.width(700).height(700),name,place",
+                ]);
+
+            } else {
+                // if none of those are set, direct search without specific params
+                $requestFB -> setParams([
+                    "type" => "$selectedTag",
+                    "q" => "$keyword",
+                    "fields" => "picture.width(700).height(700),name,place",
+                ]);
+            }
+            
+            executeNonPlaceRequest("place");
         } else if ($selectedTag == "event") {
             $requestFB -> setParams([
                 "type" => "$selectedTag",
