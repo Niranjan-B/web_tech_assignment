@@ -5,16 +5,20 @@
         <div class="col-xs-3 col-sm-3 col-md-3" style="margin-top: 1em;">
           <strong id="fb-search-text">FB Search</strong>
         </div>
+        <form [formGroup]="searchGroup" novalidate (ngSubmit)="fireSearchEvent(searchGroup.value, searchGroup.valid)">
         <div class="col-xs-6 col-sm-6 col-md-6" style="margin-top: 0.5em;">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Type Something....">
+            <input data-toggle = "tooltip" title = "Please type a keyword" type="text" data-placement="bottom"
+                   class="form-control" placeholder="Type Something...." formControlName="searchedKeyWord" 
+                   id="searchQueryInput">
             <span class="input-group-btn">
-              <button class="btn btn-default" type="button" id="search-fb-button">
+              <button class="btn btn-default" type="submit" id="search-fb-button">
                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
               </button>
             </span>
           </div>
         </div>
+        </form>
         <div class="col-xs-3 col-sm-3 col-md-3" style="margin-top: 0.5em;">
           <button type="button" class="btn btn-default" style="border: 1px solid #3b5998; background: white;">
             <span style="color: #3b5998">Clear</span>
