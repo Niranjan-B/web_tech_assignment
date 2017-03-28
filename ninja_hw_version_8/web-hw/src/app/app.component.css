@@ -1,0 +1,16 @@
+#page-header {
+    height: 3.5em;
+    border-bottom: 1px solid lightgray;
+    background: #F3F2F2;
+    width: 100%;
+}
+
+#fb-search-text {
+    color: #3b5998;
+}
+
+#search-fb-button {
+    width: 5em;
+    background: #3b5998;
+    color: white;
+}
