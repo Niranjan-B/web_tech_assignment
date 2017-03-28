@@ -50,7 +50,7 @@
             <div class="facebook_search_container">
                 <center><span id="facebook_search_text">Facebook Search</span></center>
                 <hr style="color: grey; margin-left: 10px; margin-right:10px;">
-                <form method="post" action="search.php" style="padding-left:10px;" autocomplete="on">
+                <form method="post" action="search_1.php" style="padding-left:10px;" autocomplete="on">
                     <table>
                         <tr>
                             <td><label for="keyword" class="form_labels">Keyword:&nbsp;</label></td>
@@ -167,7 +167,7 @@
 
             function parseDetailTable(id) {
                 // reloading the page with a new URL
-                window.location.href = "http://cs-server.usc.edu:21324/search.php?id="+id; //chnage this when testing locally
+                window.location.href = "http://cs-server.usc.edu:21324/search_1.php?id="+id; //chnage this when testing locally
             }
 
             function hideResultTable(id) {
