@@ -11,6 +11,9 @@ export class AppComponent implements OnInit {
 
     ngOnInit() : void {
        $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
+       $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+          console.log(e.target['firstChild']);
+      });
     }
   
     searchGroup = new FormGroup({
