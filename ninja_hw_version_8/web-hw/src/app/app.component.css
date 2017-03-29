@@ -6,14 +6,19 @@
 }
 
 #fb-search-text {
-    color: #3b5998;
+    color: #337ab5;
 }
 
 #search-fb-button {
     width: 5em;
-    background: #3b5998;
+    background: #337ab5;
     color: white;
 }
 #tabs .nav-justified li a {
     border-radius: 0;
+}
+.favorite-button {
+    width: 2.8em;
+    height: 2.3em;
+    background: white;
 }
