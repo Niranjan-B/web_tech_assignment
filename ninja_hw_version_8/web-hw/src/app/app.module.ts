@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { FetchDataService } from './fetch-data.service';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     HttpModule
   ],
-  providers: [],
+  providers: [FetchDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
