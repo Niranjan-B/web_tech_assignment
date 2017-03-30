@@ -5,6 +5,12 @@
     if (isset($_GET['search_type']) && isset($_GET['searched_keyword'])) {
         
         header('Content-Type: application/json');
+	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Credentials: true");
+    	header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+    	header('Access-Control-Max-Age: 1000');
+    	header('Access-Control-Allow-Headers: access-control-allow-origin, Origin, Content-Type, X-Auth-Token , Authorization');	
+
         $strippd_out_keyword = str_replace(' ', '', $_GET['searched_keyword']);
         
         if ($_GET['search_type'] == "users") {
