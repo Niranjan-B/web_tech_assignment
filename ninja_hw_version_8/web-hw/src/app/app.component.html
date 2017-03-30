@@ -58,27 +58,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td style="padding-top: 1em;">1</td>
-                  <td style="padding-top: 1em;">ninja</td>
-                  <td style="padding-top: 1em;">ninja</td>
+                <tr *ngFor="let result of jsonResult">
+                  <td style="padding-top: 1.3em;">{{ 1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
                   <td>
-                    <button class="btn btn-default favorite-button" type="button" >
-                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
                     </button>
                   </td>
                   <td>
-                    <button class="btn btn-default favorite-button" type="button" >
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
                       <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
                     </button>
                   </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
                 </tr>
             </tbody>
             </table>

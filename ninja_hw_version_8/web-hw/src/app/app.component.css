@@ -22,3 +22,8 @@
     height: 2.3em;
     background: white;
 }
+.round-image {
+    width: 3em;
+    height: 3em;
+    border-radius: 25px;
+}
