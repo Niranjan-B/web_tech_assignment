@@ -13,72 +13,52 @@ export class AppComponent implements OnInit {
 
     private selectedTab : string = "Users";
     private searchedKeyword: string;
+    
     jsonResult: string;
+    jsonPageResult: string;
+    jsonEventResult: string;
+    jsonPlaceResult: string;
+    jsonGroupReult: string;
 
     constructor(private dataService: FetchDataService) {}
 
-    displayData(resultJSON) : void {
-      this.jsonResult = resultJSON['data'];
-    }
-
-    // calling the respective service on tab changed
-    callSelectedTabService(selectedTab: string, searchedKeyword: string, lat: string, lon: string) {
-
-      switch (selectedTab) {
-        case "Users":
-          this.dataService.getSearchedUsers(searchedKeyword)
+    private loadData(searchedKeyword: string, lat: string, lon: string): void {
+      this.dataService.getSearchedUsers(searchedKeyword)
               .subscribe(
-                userSearchData => this.displayData(userSearchData),
+                userSearchData => this.jsonResult = userSearchData['data'],
                 error => console.log(error),
                 () => console.log("Completed!"));
-          break;
-        case "Pages":
-          this.dataService.getSearchedPages(searchedKeyword)
+        
+      this.dataService.getSearchedPages(searchedKeyword)
               .subscribe(
-                pageSearchData => this.displayData(pageSearchData),
+                pageSearchData => this.jsonPageResult = pageSearchData['data'],
                 error => console.log(error),
                 () => console.log("completed page search"));
-          break;
-        case "Events":
-          this.dataService.getSearchedEvents(searchedKeyword)
+
+      this.dataService.getSearchedEvents(searchedKeyword)
               .subscribe(
-                searchedEvents => this.displayData(searchedEvents),
+                searchedEvents => this.jsonEventResult = searchedEvents['data'],
                 error => console.log(error),
                 () => console.log("Completed event search"));
-          break;
-        case "Places":
-          this.dataService.getSearchedPlaces(searchedKeyword, lat, lon)
+
+      this.dataService.getSearchedPlaces(searchedKeyword, lat, lon)
               .subscribe(
-                searchedPlaces => this.displayData(searchedPlaces),
+                searchedPlaces => this.jsonPlaceResult = searchedPlaces['data'],
                 error => console.log(error),
                 () => console.log("Completed places search"));
-          break;
-        case "Groups":
-          this.dataService.getSearchedGroup(searchedKeyword)
+
+       this.dataService.getSearchedGroup(searchedKeyword)
               .subscribe(
-                searchedGroups => this.displayData(searchedGroups),
+                searchedGroups => this.jsonGroupReult = searchedGroups['data'],
                 error => console.log(error),
-                () => console.log("Completed group search"));
-          break;
-        case "Favorites":
-          console.log("Favourites later");
-          break;
-        default:
-          console.log("What the fuck? You clicked some tab which i dont know?");
-          break;
-      }
+                () => console.log("Completed group search")); 
     }
 
     ngOnInit() : void {
 
        $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
        $('a[data-toggle="tab"]').on('shown.bs.tab', (e) => {
-          this.selectedTab = e.target['firstChild']['data'];
-          
-          // calling services on tab change  
-          if (this.searchedKeyword !== undefined && this.searchedKeyword.length !== 0) {
-              this.callSelectedTabService(this.selectedTab, this.searchedKeyword, "", "");
-          }
+          //this.selectedTab = e.target['firstChild']['data'];
        });
 
       // this.dataService.getDetailsOfId("353851465130")
@@ -110,7 +90,8 @@ export class AppComponent implements OnInit {
         }, 1500);
       } else {
         this.searchedKeyword = formValue['searchedKeyWord'];
-        this.callSelectedTabService(this.selectedTab, formValue['searchedKeyWord'], "", "");
+        // calling all services and storing in cache 
+        this.loadData(formValue['searchedKeyWord'], "", "");
       }
     }
 

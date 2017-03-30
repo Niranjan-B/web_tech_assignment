@@ -91,19 +91,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
+                <tr *ngFor="let result of jsonPageResult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    </button>
+                  </td>
                 </tr>
             </tbody>
             </table>
@@ -123,19 +124,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
+                 <tr *ngFor="let result of jsonEventResult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    </button>
+                  </td>
                 </tr>
             </tbody>
             </table>
@@ -155,19 +157,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
+                <tr *ngFor="let result of jsonPlaceResult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    </button>
+                  </td>
                 </tr>
             </tbody>
             </table>
@@ -187,19 +190,20 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
+                <tr *ngFor="let result of jsonGroupReult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    </button>
+                  </td>
                 </tr>
             </tbody>
             </table>
@@ -221,13 +225,6 @@
               <tbody>
                 <tr>
                   <td>1</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                  <td>ninja</td>
-                </tr>
-                <tr>
-                  <td>2</td>
                   <td>ninja</td>
                   <td>ninja</td>
                   <td>ninja</td>
