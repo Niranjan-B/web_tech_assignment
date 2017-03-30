@@ -58,8 +58,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let result of jsonResult">
-                  <td style="padding-top: 1.3em;">{{ 1 }}</td>
+                <tr *ngFor="let result of jsonResult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
                   <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
                   <td style="padding-top: 1.3em;">{{ result.name }}</td>
                   <td>
