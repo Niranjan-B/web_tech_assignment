@@ -20,14 +20,68 @@ export class AppComponent implements OnInit {
     jsonPlaceResult: string;
     jsonGroupReult: string;
 
+    // vars for user tab
     hideButtonsUserTab : boolean = true;
     nextPageButtonUserTab: boolean = false;
     previousPageButtonUserTab: boolean = false;
     nextPageButtonUserTabUrl: string;
     previousPageButtonUserTabUrl: string;
 
+    // vars for page tab
+    hideButtonsPageTab : boolean = true;
+    nextPageButtonPageTab: boolean = false;
+    previousPageButtonPageTab: boolean = false;
+    nextPageButtonPageTabUrl: string;
+    previousPageButtonPageTabUrl: string;
+
+    // vars for events tab
+    hideButtonsEventTab : boolean = true;
+    nextPageButtonEventTab: boolean = false;
+    previousPageButtonEventTab: boolean = false;
+    nextPageButtonPageEventUrl: string;
+    previousPageButtonEventTabUrl: string;
+
+    // vars for places tab
+    hideButtonsPlaceTab : boolean = true;
+    nextPageButtonPlaceTab: boolean = false;
+    previousPageButtonPlaceTab: boolean = false;
+    nextPageButtonPagePlaceUrl: string;
+    previousPageButtonPlaceTabUrl: string;
+
+    // vars for groups tab
+    hideButtonsGroupTab : boolean = true;
+    nextPageButtonGroupTab: boolean = false;
+    previousPageButtonGroupTab: boolean = false;
+    nextPageButtonPageGroupUrl: string;
+    previousPageButtonGroupTabUrl: string;
+
 
     constructor(private dataService: FetchDataService) {}
+
+    // function to fire nex page event in pages tab
+    fireNextPagePagesTab(): void {
+      this.dataService.getPageData(this.nextPageButtonPageTabUrl)
+                      .subscribe(nextPageData => {
+                        this.isNextPageInPagesTabPresent(nextPageData['paging']['next']);
+                        this.isPreviousPageInPageTabPresent(nextPageData['paging']['previous']);
+                        this.jsonPageResult = nextPageData['data'];
+                        this.hideButtonsPageTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data"));
+    }
+    // function to fire previous page event in pages tab
+    firePreviousPagePagesTab(): void {
+      this.dataService.getPageData(this.previousPageButtonPageTabUrl)
+                      .subscribe(previousPageData => {
+                        this.isNextPageInPagesTabPresent(previousPageData['paging']['next']);
+                        this.isPreviousPageInPageTabPresent(previousPageData['paging']['previous']);
+                        this.jsonPageResult = previousPageData['data'];
+                        this.hideButtonsPageTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data"));
+    }
 
     // function to fire next page event and get fresh data
     fireNextPageUserTab(): void {
@@ -41,7 +95,6 @@ export class AppComponent implements OnInit {
                       error => console.log(error),
                       () => console.log("completed fetching next page data"));
     }
-
     // function to fire previous page event and get fresh data
     firePreviousPageUsersTab(): void {
       this.dataService.getPageData(this.previousPageButtonUserTabUrl)
@@ -53,6 +106,17 @@ export class AppComponent implements OnInit {
                       },
                       error => console.log(error),
                       () => console.log("completed fetching next page data"));
+    }
+
+    // function to check if next page of pages tab is available
+    isNextPageInPagesTabPresent(nextPageUrl): void {
+      nextPageUrl !== undefined ? this.nextPageButtonPageTab = true : this.nextPageButtonPageTab = false;
+      this.nextPageButtonPageTabUrl = nextPageUrl;
+    }
+    // function to check if the previous page of page tab is available
+    isPreviousPageInPageTabPresent(previousPageUrl): void {
+      previousPageUrl !== undefined ? this.previousPageButtonPageTab = true : this.previousPageButtonPageTab = false; 
+      this.previousPageButtonPageTabUrl = previousPageUrl;
     }
 
     // function to check if the next page of users tab is available
@@ -80,7 +144,12 @@ export class AppComponent implements OnInit {
         
       this.dataService.getSearchedPages(searchedKeyword)
               .subscribe(
-                pageSearchData => this.jsonPageResult = pageSearchData['data'],
+                pageSearchData => {
+                  this.isNextPageInPagesTabPresent(pageSearchData['paging']['next']);
+                  this.isPreviousPageInPageTabPresent(pageSearchData['paging']['previous']);
+                  this.jsonPageResult = pageSearchData['data'];
+                  this.hideButtonsPageTab = false;
+                },
                 error => console.log(error),
                 () => console.log("completed page search"));
 
