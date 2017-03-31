@@ -11,6 +11,8 @@ import { FetchDataService } from './fetch-data.service';
 })
 export class AppComponent implements OnInit {
 
+  // -----------------CANDIDATE FOR HIGH OPTIMIZATION/bad-coding due to time contraint-----------
+
     private selectedTab : string = "Users";
     private searchedKeyword: string;
     
@@ -57,6 +59,37 @@ export class AppComponent implements OnInit {
 
 
     constructor(private dataService: FetchDataService) {}
+
+    
+
+    // function to fire next page event in locations tab
+    fireNextPageLocationsTab(): void {
+      this.dataService.getPageData(this.nextPageButtonPagePlaceUrl)
+                      .subscribe(nextPageData => {
+                        if (nextPageData['paging'] === undefined) {
+                          this.isNextPageInPlacesTabPresent(undefined);
+                        }  else {
+                          this.isNextPageInPlacesTabPresent(nextPageData['paging']['next']);
+                        }
+                        this.isPreviousPageInPlacesTabPresent(nextPageData['paging']['previous']);
+                        this.jsonPlaceResult = nextPageData['data'];
+                        this.hideButtonsPlaceTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data location"));
+    }
+    // function to fire previous page event in locations tab
+    firePreviousPageLocationsTab(): void {
+      this.dataService.getPageData(this.previousPageButtonPlaceTabUrl)
+                      .subscribe(previousPageData => {
+                        this.isNextPageInPlacesTabPresent(previousPageData['paging']['next']);
+                        this.isPreviousPageInPlacesTabPresent(previousPageData['paging']['previous']);
+                        this.jsonPlaceResult = previousPageData['data'];
+                        this.hideButtonsPlaceTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data location"));
+    }
 
     // function to fire next page events tab, fuck facebooks API. giving wierd JSON for places
     fireNextPageEventsTab(): void {
@@ -140,6 +173,17 @@ export class AppComponent implements OnInit {
     }
 
     // function to check if next page of pages tab is available
+    isNextPageInPlacesTabPresent(nextPageUrl): void {
+      nextPageUrl !== undefined ? this.nextPageButtonPlaceTab = true : this.nextPageButtonPlaceTab = false;
+      this.nextPageButtonPagePlaceUrl = nextPageUrl;
+    }
+    // function to check if the previous page of page tab is available
+    isPreviousPageInPlacesTabPresent(previousPageUrl): void {
+      previousPageUrl !== undefined ? this.previousPageButtonPlaceTab = true : this.previousPageButtonPlaceTab = false; 
+      this.previousPageButtonPlaceTabUrl = previousPageUrl;
+    }
+
+    // function to check if next page of pages tab is available
     isNextPageInEventsTabPresent(nextPageUrl): void {
       nextPageUrl !== undefined ? this.nextPageButtonEventTab = true : this.nextPageButtonEventTab = false;
       this.nextPageButtonPageEventUrl = nextPageUrl;
@@ -208,7 +252,12 @@ export class AppComponent implements OnInit {
 
       this.dataService.getSearchedPlaces(searchedKeyword, lat, lon)
               .subscribe(
-                searchedPlaces => this.jsonPlaceResult = searchedPlaces['data'],
+                searchedPlaces => {
+                  this.isNextPageInPlacesTabPresent(searchedPlaces['paging']['next']);
+                  this.isPreviousPageInPlacesTabPresent(searchedPlaces['paging']['previous']);
+                  this.jsonPlaceResult = searchedPlaces['data'];
+                  this.hideButtonsPlaceTab = false;
+                },
                 error => console.log(error),
                 () => console.log("Completed places search"));
 
