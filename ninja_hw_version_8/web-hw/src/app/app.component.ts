@@ -58,7 +58,38 @@ export class AppComponent implements OnInit {
 
     constructor(private dataService: FetchDataService) {}
 
-    // function to fire nex page event in pages tab
+    // function to fire next page events tab, fuck facebooks API. giving wierd JSON for places
+    fireNextPageEventsTab(): void {
+      this.dataService.getPageData(this.nextPageButtonPageEventUrl)
+                      .subscribe(nextPageData => {
+
+                        if (nextPageData['paging'] === undefined) {
+                          this.isNextPageInEventsTabPresent(undefined);
+                        }  else {
+                          this.isNextPageInEventsTabPresent(nextPageData['paging']['next']);
+                        }
+                        this.isPreviousPageInEventsTabPresent(nextPageData['paging']['previous']);
+                        this.jsonEventResult = nextPageData['data'];
+                        this.hideButtonsEventTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data for events"));
+    }
+    // function to fire previous page events tab
+    firePreviousPageEventsTab(): void {
+      this.dataService.getPageData(this.previousPageButtonEventTabUrl)
+                      .subscribe(previousPageData => {
+                        this.isNextPageInEventsTabPresent(previousPageData['paging']['next']);
+                        this.isPreviousPageInEventsTabPresent(previousPageData['paging']['previous']);
+                        this.jsonEventResult = previousPageData['data'];
+                        this.hideButtonsEventTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data"));
+    }
+
+
+    // function to fire next page event in pages tab
     fireNextPagePagesTab(): void {
       this.dataService.getPageData(this.nextPageButtonPageTabUrl)
                       .subscribe(nextPageData => {
@@ -109,6 +140,17 @@ export class AppComponent implements OnInit {
     }
 
     // function to check if next page of pages tab is available
+    isNextPageInEventsTabPresent(nextPageUrl): void {
+      nextPageUrl !== undefined ? this.nextPageButtonEventTab = true : this.nextPageButtonEventTab = false;
+      this.nextPageButtonPageEventUrl = nextPageUrl;
+    }
+    // function to check if the previous page of page tab is available
+    isPreviousPageInEventsTabPresent(previousPageUrl): void {
+      previousPageUrl !== undefined ? this.previousPageButtonEventTab = true : this.previousPageButtonEventTab = false; 
+      this.previousPageButtonEventTabUrl = previousPageUrl;
+    }
+
+    // function to check if next page of pages tab is available
     isNextPageInPagesTabPresent(nextPageUrl): void {
       nextPageUrl !== undefined ? this.nextPageButtonPageTab = true : this.nextPageButtonPageTab = false;
       this.nextPageButtonPageTabUrl = nextPageUrl;
@@ -155,7 +197,12 @@ export class AppComponent implements OnInit {
 
       this.dataService.getSearchedEvents(searchedKeyword)
               .subscribe(
-                searchedEvents => this.jsonEventResult = searchedEvents['data'],
+                searchedEvents => {
+                  this.isNextPageInEventsTabPresent(searchedEvents['paging']['next']);
+                  this.isPreviousPageInEventsTabPresent(searchedEvents['paging']['previous']);
+                  this.jsonEventResult = searchedEvents['data'];
+                  this.hideButtonsEventTab = false;
+                },
                 error => console.log(error),
                 () => console.log("Completed event search"));
 
