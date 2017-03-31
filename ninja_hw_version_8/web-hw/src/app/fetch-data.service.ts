@@ -67,4 +67,9 @@ export class FetchDataService {
                     .map(response => response.json());
   }
 
+  // get next page data
+  getPageData(url: string) {
+    return this.http.get(url, { headers: this.headers }).map(response => response.json());
+  }
+
 }
