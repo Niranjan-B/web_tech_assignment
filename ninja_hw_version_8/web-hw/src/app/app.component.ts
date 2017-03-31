@@ -60,7 +60,34 @@ export class AppComponent implements OnInit {
 
     constructor(private dataService: FetchDataService) {}
 
-    
+    // function to fire next page event in groups tab
+    fireNextPageGroupsTab(): void {
+      this.dataService.getPageData(this.nextPageButtonPageGroupUrl)
+                      .subscribe(nextPageData => {
+                        if (nextPageData['paging'] === undefined) {
+                          this.isNextPageInGroupsTabPresent(undefined);
+                        }  else {
+                          this.isNextPageInGroupsTabPresent(nextPageData['paging']['next']);
+                        }
+                        this.isPreviousPageInGroupsTabPresent(nextPageData['paging']['previous']);
+                        this.jsonGroupReult = nextPageData['data'];
+                        this.hideButtonsGroupTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data groups"));
+    }
+    // function to fire previous page event in groups tab
+    firePreviousPageGroupsTab(): void {
+      this.dataService.getPageData(this.previousPageButtonGroupTabUrl)
+                      .subscribe(previousPageData => {
+                        this.isNextPageInGroupsTabPresent(previousPageData['paging']['next']);
+                        this.isPreviousPageInGroupsTabPresent(previousPageData['paging']['previous']);
+                        this.jsonGroupReult = previousPageData['data'];
+                        this.hideButtonsGroupTab = false;
+                      },
+                      error => console.log(error),
+                      () => console.log("completed fetching next page data location"));
+    }
 
     // function to fire next page event in locations tab
     fireNextPageLocationsTab(): void {
@@ -172,6 +199,17 @@ export class AppComponent implements OnInit {
                       () => console.log("completed fetching next page data"));
     }
 
+     // function to check if next page of pages tab is available
+    isNextPageInGroupsTabPresent(nextPageUrl): void {
+      nextPageUrl !== undefined ? this.nextPageButtonGroupTab = true : this.nextPageButtonGroupTab = false;
+      this.nextPageButtonPageGroupUrl = nextPageUrl;
+    }
+    // function to check if the previous page of page tab is available
+    isPreviousPageInGroupsTabPresent(previousPageUrl): void {
+      previousPageUrl !== undefined ? this.previousPageButtonGroupTab = true : this.previousPageButtonGroupTab = false; 
+      this.previousPageButtonGroupTabUrl = previousPageUrl;
+    }
+
     // function to check if next page of pages tab is available
     isNextPageInPlacesTabPresent(nextPageUrl): void {
       nextPageUrl !== undefined ? this.nextPageButtonPlaceTab = true : this.nextPageButtonPlaceTab = false;
@@ -263,7 +301,12 @@ export class AppComponent implements OnInit {
 
        this.dataService.getSearchedGroup(searchedKeyword)
               .subscribe(
-                searchedGroups => this.jsonGroupReult = searchedGroups['data'],
+                searchedGroups => {
+                  this.isNextPageInGroupsTabPresent(searchedGroups['paging']['next']);
+                  this.isPreviousPageInGroupsTabPresent(searchedGroups['paging']['previous']);
+                  this.jsonGroupReult = searchedGroups['data'];
+                  this.hideButtonsGroupTab = false;
+                },
                 error => console.log(error),
                 () => console.log("Completed group search")); 
     }

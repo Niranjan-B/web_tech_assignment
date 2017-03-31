@@ -235,6 +235,13 @@
                 </tr>
             </tbody>
             </table>
+            <div class="col-xs-3 col-sm-3 col-md-4"><!-- Dummy div's--></div>
+              <div class="col-xs-6 col-sm-6 col-md-3" [hidden]="hideButtonsGroupTab">
+                <button *ngIf="previousPageButtonGroupTab" class="btn btn-default align-middle" type="button" (click)="firePreviousPageGroupsTab()" style="background: white; width: 7em; height: 2.5em; float: left; margin-left: 2em;">Previous</button>
+                <button *ngIf="nextPageButtonGroupTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageGroupsTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
+              <br><br><br>
           </div>
         </div>
         <!-- Tab for favourites-->
