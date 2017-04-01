@@ -5,10 +5,12 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FetchDataService } from './fetch-data.service';
+import { DetailComponentComponent } from './detail-component/detail-component.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DetailComponentComponent
   ],
   imports: [
     BrowserModule,

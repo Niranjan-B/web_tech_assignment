@@ -16,6 +16,12 @@ export class AppComponent implements OnInit {
     private selectedTab : string = "Users";
     private searchedKeyword: string;
     
+    isContentCleared: boolean = false;
+    isPageContentCleared: boolean = false;
+    isEventContentCleared: boolean = false;
+    isPlaceContentCleared: boolean = false;
+    isGroupContentCleared: boolean = false;
+    
     jsonResult: string;
     jsonPageResult: string;
     jsonEventResult: string;
@@ -262,6 +268,7 @@ export class AppComponent implements OnInit {
                   this.isPreviousPageInUserTabPresent(userSearchData['paging']['previous']);
                   this.jsonResult = userSearchData['data'];
                   this.hideButtonsUserTab = false;
+                  this.isContentCleared = true;
                 },
                 error => console.log(error),
                 () => console.log("Completed!"));
@@ -273,6 +280,7 @@ export class AppComponent implements OnInit {
                   this.isPreviousPageInPageTabPresent(pageSearchData['paging']['previous']);
                   this.jsonPageResult = pageSearchData['data'];
                   this.hideButtonsPageTab = false;
+                  this.isPageContentCleared = true;
                 },
                 error => console.log(error),
                 () => console.log("completed page search"));
@@ -284,6 +292,7 @@ export class AppComponent implements OnInit {
                   this.isPreviousPageInEventsTabPresent(searchedEvents['paging']['previous']);
                   this.jsonEventResult = searchedEvents['data'];
                   this.hideButtonsEventTab = false;
+                  this.isEventContentCleared = true;
                 },
                 error => console.log(error),
                 () => console.log("Completed event search"));
@@ -295,6 +304,7 @@ export class AppComponent implements OnInit {
                   this.isPreviousPageInPlacesTabPresent(searchedPlaces['paging']['previous']);
                   this.jsonPlaceResult = searchedPlaces['data'];
                   this.hideButtonsPlaceTab = false;
+                  this.isPlaceContentCleared = true;
                 },
                 error => console.log(error),
                 () => console.log("Completed places search"));
@@ -306,9 +316,22 @@ export class AppComponent implements OnInit {
                   this.isPreviousPageInGroupsTabPresent(searchedGroups['paging']['previous']);
                   this.jsonGroupReult = searchedGroups['data'];
                   this.hideButtonsGroupTab = false;
+                  this.isGroupContentCleared = true;
                 },
                 error => console.log(error),
-                () => console.log("Completed group search")); 
+                () => console.log("Completed group search"));
+
+         
+    }
+
+    clearContent(): void {  
+      this.isContentCleared = false;
+      this.isPageContentCleared = false;
+      this.isEventContentCleared = false;
+      this.isPlaceContentCleared = false;
+      this.isGroupContentCleared = false;
+      // resetting the form
+      this.searchGroup.reset();
     }
 
     ngOnInit() : void {
@@ -347,6 +370,7 @@ export class AppComponent implements OnInit {
         }, 1500);
       } else {
         this.searchedKeyword = formValue['searchedKeyWord'];
+        console.log(formValue);
         // calling all services and storing in cache 
         this.loadData(formValue['searchedKeyWord'], "", "");
       }

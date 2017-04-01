@@ -20,7 +20,7 @@
         </div>
         </form>
         <div class="col-xs-3 col-sm-3 col-md-3" style="margin-top: 0.5em;">
-          <button type="button" class="btn btn-default" style="border: 1px solid #337ab5; background: white;">
+          <button type="button" class="btn btn-default" style="border: 1px solid #337ab5; background: white;" (click)="clearContent()">
             <span style="color: #337ab5">Clear</span>
           </button>
         </div>
@@ -45,7 +45,7 @@
     <div class="row">
       <div class="tab-content">
         <!-- Tab for users -->
-        <div class="tab-pane active" id="users" style="margin-left: 20px; margin-right: 20px;">
+        <div *ngIf="isContentCleared" class="tab-pane active" id="users" style="margin-left: 20px; margin-right: 20px;">
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -77,15 +77,14 @@
             </table>
               <div class="col-xs-3 col-sm-3 col-md-4"><!-- Dummy div's--></div>
               <div class="col-xs-6 col-sm-6 col-md-3" [hidden]="hideButtonsUserTab">
-                <button *ngIf="previousPageButtonUserTab" class="btn btn-default align-middle" type="button" (click)="firePreviousPageUsersTab()" style="background: white; width: 7em; height: 2.5em; float: left; margin-left: 2em;">Previous</button>
-                <button *ngIf="nextPageButtonUserTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageUserTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
+                <button *ngIf="previousPageButtonUserTab" class="btn btn-default align-middle" type="button" (click)="firePreviousPageUsersTab()" style="background: white; width: 7em; height: 2.5em; float: left; margin-left: 2em; margin-bottom: 5em;">Previous</button>
+                <button *ngIf="nextPageButtonUserTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageUserTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em; margin-bottom: 5em;">Next</button>
               </div>
               <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
-              <br><br><br>
           </div>
         </div>
         <!-- Tab for pages-->
-        <div class="tab-pane" id="pages" style="margin-left: 20px; margin-right: 20px;">
+        <div *ngIf="isPageContentCleared" class="tab-pane" id="pages" style="margin-left: 20px; margin-right: 20px;">
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -121,11 +120,10 @@
                 <button *ngIf="nextPageButtonPageTab" class="btn btn-default align-middle" type="button" (click)="fireNextPagePagesTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
               </div>
               <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
-              <br><br><br>
           </div>
         </div>
         <!-- Tab for events-->
-        <div class="tab-pane" id="events" style="margin-left: 20px; margin-right: 20px;">
+        <div *ngIf="isEventContentCleared" class="tab-pane" id="events" style="margin-left: 20px; margin-right: 20px;">
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -161,11 +159,10 @@
                 <button *ngIf="nextPageButtonEventTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageEventsTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
               </div>
               <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
-              <br><br><br>
           </div>
         </div>
         <!-- Tab for places-->
-        <div class="tab-pane" id="places" style="margin-left: 20px; margin-right: 20px;">
+        <div *ngIf="isPlaceContentCleared" class="tab-pane" id="places" style="margin-left: 20px; margin-right: 20px;">
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -201,11 +198,10 @@
                 <button *ngIf="nextPageButtonPlaceTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageLocationsTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
               </div>
               <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
-              <br><br><br>
           </div>
         </div>
         <!-- Tab for groups-->
-        <div class="tab-pane" id="groups" style="margin-left: 20px; margin-right: 20px;">
+        <div *ngIf="isGroupContentCleared" class="tab-pane" id="groups" style="margin-left: 20px; margin-right: 20px;">
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -241,7 +237,6 @@
                 <button *ngIf="nextPageButtonGroupTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageGroupsTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em;">Next</button>
               </div>
               <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
-              <br><br><br>
           </div>
         </div>
         <!-- Tab for favourites-->
@@ -272,3 +267,4 @@
       </div>
     </div>
   </div>
+  <app-detail-component></app-detail-component>
