@@ -1,0 +1,46 @@
+<!-- Tab for groups-->
+        <div class="tab-pane active" id="groups" style="margin-left: 20px; margin-right: 20px;">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Profile Photo</th>
+                  <th>Name</th>
+                  <th>Favorite</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Hello</td>
+                  <td>World</td>
+                  <td>Search</td>
+                  <td>Group</td>
+                </tr>
+                <!--<tr *ngFor="let result of jsonGroupReult; let i = index;">
+                  <td style="padding-top: 1.3em;">{{ i+1 }}</td>
+                  <td><img class="round-image" src="{{ result.picture.data.url }}"/></td>
+                  <td style="padding-top: 1.3em;">{{ result.name }}</td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="width: 1em; height: 1em; "></span>
+                    </button>
+                  </td>
+                  <td>
+                    <button class="btn btn-default favorite-button" type="button" style="margin-top: 0.3em;">
+                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="width: 1em; height: 1em;"></span>
+                    </button>
+                  </td>
+                </tr>-->
+            </tbody>
+            </table>
+            <div class="col-xs-3 col-sm-3 col-md-4"><!-- Dummy div's--></div>
+              <div class="col-xs-6 col-sm-6 col-md-3" [hidden]="hideButtonsGroupTab">
+                <button *ngIf="previousPageButtonGroupTab" class="btn btn-default align-middle" type="button" (click)="firePreviousPageGroupsTab()" style="background: white; width: 7em; height: 2.5em; float: left; margin-left: 2em; margin-bottom: 5em;">Previous</button>
+                <button *ngIf="nextPageButtonGroupTab" class="btn btn-default align-middle" type="button" (click)="fireNextPageGroupsTab()" style="background: white; width: 7em; height: 2.5em; float: right; margin-right: 2em; margin-bottom: 5em;">Next</button>
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-5"><!-- Dummy div's' --></div>
+          </div>
+        </div>
+       

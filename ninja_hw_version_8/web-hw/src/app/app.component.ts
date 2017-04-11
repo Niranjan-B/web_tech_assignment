@@ -11,12 +11,17 @@ declare var $:any;
 })
 export class AppComponent implements OnInit {
 
+  private targetedTab: string = "user";
+  private searchedQuery: string;
+
   constructor(private router: Router){}
 
   ngOnInit() : void {
       $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'});
       $('a[data-toggle="tab"]').on('shown.bs.tab', (e) => {
-        // do nothing for now
+        console.log(e.target['href'].toString().slice(23));
+        this.targetedTab = e.target['href'].toString().slice(23);
+        this.router.navigate(['/'+this.targetedTab+'/'+this.searchedQuery]);
       });
   }
 
@@ -38,8 +43,10 @@ export class AppComponent implements OnInit {
           inputField.tooltip('hide');
         }, 1500);
       } else {
-        // call the search component here
-        this.router.navigate(['/search/'+formValue['searchedKeyWord']]);
+        // call the components here
+        //this.router.navigate(['/search/'+formValue['searchedKeyWord']]);
+        this.searchedQuery = formValue['searchedKeyWord'];
+        this.router.navigate(['/'+this.targetedTab+'/'+formValue['searchedKeyWord']]);
       }
     }
 }

@@ -13,44 +13,54 @@ export class FetchDataService {
 
   // call to get the user searched for
   getSearchedUsers(searchedUser: string) {
-    return this.http.get("https://php-gae-161219.appspot.com/?search_type=users&searched_keyword="+searchedUser, 
-                {headers: this.headers})
-                .map(response => response.json());
+    // return this.http.get("https://php-gae-161219.appspot.com/?search_type=users&searched_keyword="+searchedUser, 
+    //             {headers: this.headers})
+    //             .map(response => response.json());
+    return this.http.get("https://sheetsu.com/apis/v1.0/a9c02fa03319", {headers: this.headers})
+                    .map(response => response.json());
   }
 
   // function to get pages of searched query
   getSearchedPages(searchedPage: string) {
-    return this.http.get("https://php-gae-161219.appspot.com/?search_type=pages&searched_keyword="+searchedPage,
-                {headers: this.headers})
-                .map(response => response.json());
+    // return this.http.get("https://php-gae-161219.appspot.com/?search_type=pages&searched_keyword="+searchedPage,
+    //             {headers: this.headers})
+    //             .map(response => response.json());
+    return this.http.get("https://sheetsu.com/apis/v1.0/a9c02fa03319", {headers: this.headers})
+                    .map(response => response.json());
   }
 
   // function to get events of searched type
   getSearchedEvents(searchedEvent: string) {
-    return this.http.get("https://php-gae-161219.appspot.com/?search_type=events&searched_keyword="+searchedEvent,
-                { headers: this.headers })
-                .map(response => response.json());
+    // return this.http.get("https://php-gae-161219.appspot.com/?search_type=events&searched_keyword="+searchedEvent,
+    //             { headers: this.headers })
+    //             .map(response => response.json());
+    return this.http.get("https://sheetsu.com/apis/v1.0/a9c02fa03319", {headers: this.headers})
+                    .map(response => response.json());
   }
 
   // function to get nearby places
   getSearchedPlaces(searchedPlace: string, lat: string, lon: string) {
-    var url = "";
+    // var url = "";
     
-    if (lat.length === 0 || lon.length === 0) {
-      url = "https://php-gae-161219.appspot.com/?search_type=places&searched_keyword="+searchedPlace;
-    } else {
-      url = "https://php-gae-161219.appspot.com/?search_type=places&searched_keyword="+ searchedPlace +"&lat="+ lat +"&lon=" + lon;
-    }
+    // if (lat.length === 0 || lon.length === 0) {
+    //   url = "https://php-gae-161219.appspot.com/?search_type=places&searched_keyword="+searchedPlace;
+    // } else {
+    //   url = "https://php-gae-161219.appspot.com/?search_type=places&searched_keyword="+ searchedPlace +"&lat="+ lat +"&lon=" + lon;
+    // }
 
-    return this.http.get(url, { headers: this.headers })
-               .map( response => response.json()); 
+    // return this.http.get(url, { headers: this.headers })
+    //            .map( response => response.json()); 
+    return this.http.get("https://sheetsu.com/apis/v1.0/a9c02fa03319", {headers: this.headers})
+                    .map(response => response.json());
   }
 
   // method to search for specified group
   getSearchedGroup(searchedGroup: string) {
-    return this.http.get("https://php-gae-161219.appspot.com/?search_type=groups&searched_keyword="+searchedGroup, 
-        { headers: this.headers })
-        .map(response => response.json());
+    // return this.http.get("https://php-gae-161219.appspot.com/?search_type=groups&searched_keyword="+searchedGroup, 
+    //     { headers: this.headers })
+    //     .map(response => response.json());
+    return this.http.get("https://sheetsu.com/apis/v1.0/a9c02fa03319", {headers: this.headers})
+                    .map(response => response.json());
   }
 
   // search details given the id

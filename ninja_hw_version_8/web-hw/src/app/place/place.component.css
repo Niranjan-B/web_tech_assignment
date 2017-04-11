@@ -1,0 +1,29 @@
+#page-header {
+    height: 3.5em;
+    border-bottom: 1px solid lightgray;
+    background: #F3F2F2;
+    width: 100%;
+}
+
+#fb-search-text {
+    color: #337ab5;
+}
+
+#search-fb-button {
+    width: 5em;
+    background: #337ab5;
+    color: white;
+}
+#tabs .nav-justified li a {
+    border-radius: 0;
+}
+.favorite-button {
+    width: 2.8em;
+    height: 2.3em;
+    background: white;
+}
+.round-image {
+    width: 3em;
+    height: 3em;
+    border-radius: 25px;
+}

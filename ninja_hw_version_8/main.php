@@ -43,7 +43,7 @@
             echo $groupsContent;
         } else if ($_GET['search_type'] == "details") {
             // if the search type is detail
-            $detailContent = file_get_contents("https://graph.facebook.com/v2.8/".$strippd_out_keyword."?fields=albums.limit(5){name,photos.limit(2){name,picture}},posts.limit(5)&access_token=$access_token");
+            $detailContent = file_get_contents("https://graph.facebook.com/v2.8/".$strippd_out_keyword."?fields=albums.limit(5){name,photos.limit(2){name,images}},posts.limit(5)&access_token=$access_token");
             echo $detailContent;
         } else if ($_GET['search_type'] == "pictures") {
             // if the search type is picture
