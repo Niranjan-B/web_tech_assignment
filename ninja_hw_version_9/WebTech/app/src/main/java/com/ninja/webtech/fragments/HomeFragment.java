@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.ninja.webtech.R;
 import com.ninja.webtech.activities.ResultsActivity;
@@ -17,7 +19,8 @@ import com.ninja.webtech.activities.ResultsActivity;
  */
 public class HomeFragment extends Fragment {
 
-    Button mButton;
+    Button mSearchButton, mClearButton;
+    EditText mInputText;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -30,13 +33,27 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mButton = (Button) view.findViewById(R.id.button_search_home_fragment);
+        mSearchButton = (Button) view.findViewById(R.id.button_search_home_fragment);
+        mClearButton = (Button) view.findViewById(R.id.button_clear_home_fragment);
+        mInputText = (EditText) view.findViewById(R.id.editText_home_fragment);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ResultsActivity.class);
-                startActivity(intent);
+                if (mInputText.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Please enter a keyword!!", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), ResultsActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        mClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mInputText.getText().toString().isEmpty()) {
+                    mInputText.setText("");
+                }
             }
         });
 
