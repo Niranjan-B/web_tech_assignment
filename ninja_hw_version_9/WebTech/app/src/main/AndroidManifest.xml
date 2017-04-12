@@ -10,8 +10,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1679160999051021"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="1679160999051021"/>
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>
@@ -19,6 +20,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.AboutMeActivity">
         </activity>
     </application>
 
