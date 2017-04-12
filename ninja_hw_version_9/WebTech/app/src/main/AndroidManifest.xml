@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="1679160999051021"/>
+            android:value= "1679160999051021" />
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>
