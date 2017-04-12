@@ -21,7 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AboutMeActivity">
+        <activity android:name=".activities.AboutMeActivity"
+                  android:parentActivityName="com.ninja.webtech.activities.MainActivity" >
         </activity>
     </application>
 
