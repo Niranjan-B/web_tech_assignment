@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_black_24dp);
         initNavigationView();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout_fragment_container, new HomeFragment()).commit();
     }
 
     private void initNavigationView() {
