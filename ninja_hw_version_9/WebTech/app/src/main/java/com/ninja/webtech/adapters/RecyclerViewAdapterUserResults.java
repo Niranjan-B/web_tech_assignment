@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ninja.webtech.R;
 import com.ninja.webtech.models.user.Datum;
+import com.ninja.webtech.utilities.OnItemClickListenerRV;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ public class RecyclerViewAdapterUserResults extends RecyclerView.Adapter<Recycle
 
     ArrayList<Datum> mUsersList = new ArrayList<>();
     Context mContext;
+    OnItemClickListenerRV mClickListener;
 
-    public RecyclerViewAdapterUserResults(ArrayList<Datum> usersList, Context context) {
+    public RecyclerViewAdapterUserResults(ArrayList<Datum> usersList, Context context, OnItemClickListenerRV onItemClickListenerRV) {
         this.mUsersList = usersList;
         mContext = context;
+        mClickListener = onItemClickListenerRV;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class RecyclerViewAdapterUserResults extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(ViewHolder holder, int position) {
         Picasso.with(mContext).load(mUsersList.get(position).getPicture().getData().getUrl()).into(holder.mProfilePic);
         holder.mName.setText(mUsersList.get(position).getName());
+        holder.bind(mUsersList.get(position), mClickListener);
     }
 
     @Override
@@ -49,12 +53,18 @@ public class RecyclerViewAdapterUserResults extends RecyclerView.Adapter<Recycle
 
         ImageView mProfilePic;
         TextView mName;
+        View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             mProfilePic = (ImageView) itemView.findViewById(R.id.image_view_custom_row);
             mName = (TextView) itemView.findViewById(R.id.text_view_custom_row);
+            view = itemView;
+        }
+
+        public void bind(final Datum datum, final OnItemClickListenerRV onItemClickListenerRV) {
+            view.setOnClickListener(view1 -> onItemClickListenerRV.onItemClick(datum));
         }
     }
 

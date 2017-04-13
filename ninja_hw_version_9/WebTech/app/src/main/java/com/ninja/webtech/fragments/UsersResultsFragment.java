@@ -9,11 +9,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ninja.webtech.R;
 import com.ninja.webtech.adapters.RecyclerViewAdapterUserResults;
+import com.ninja.webtech.models.user.Datum;
 import com.ninja.webtech.models.user.Users;
 import com.ninja.webtech.network.RetrofitManager;
+import com.ninja.webtech.utilities.OnItemClickListenerRV;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,7 +87,10 @@ public class UsersResultsFragment extends Fragment {
     }
 
     private void handleResponse(Users users) {
-        mRecyclerViewAdapter = new RecyclerViewAdapterUserResults(new ArrayList<>(users.getData()), getContext());
+        mRecyclerViewAdapter = new RecyclerViewAdapterUserResults(new ArrayList<>(users.getData()), getContext(),
+                datum -> {
+                    Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show();
+                });
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
