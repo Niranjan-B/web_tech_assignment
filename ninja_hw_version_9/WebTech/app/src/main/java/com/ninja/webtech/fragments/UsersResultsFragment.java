@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.ninja.webtech.R;
@@ -35,6 +36,8 @@ public class UsersResultsFragment extends Fragment {
     private RecyclerViewAdapterUserResults mRecyclerViewAdapter;
     private CompositeDisposable mCompositeDisposable;
 
+    private Button mPrevious, mNext;
+
     public static UsersResultsFragment getNewInstance() {
         return new UsersResultsFragment();
     }
@@ -51,26 +54,17 @@ public class UsersResultsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_users_results, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_user_results);
+        mPrevious = (Button) view.findViewById(R.id.previous_button_fragment_users);
+        mNext = (Button) view.findViewById(R.id.next_button_fragment_users);
+
         mCompositeDisposable = new CompositeDisposable();
 
         initRecyclerView();
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Log.d("users", getArguments().getString("query"));
-
             // call retrofit here
-            Map<String, String> queryMap = new HashMap<>();
-            queryMap.put("search_type", "users");
-            queryMap.put("searched_keyword", getArguments().getString("query"));
-
-            mCompositeDisposable.add(
-                    RetrofitManager.getRetrofitInstance().getQueriedUsers(queryMap)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::handleResponse, this::handleError)
-            );
-
+            makeNetworkRequest(getArguments().getString("query"));
         } else {
             Log.d("users", "null bundle");
         }
@@ -88,9 +82,28 @@ public class UsersResultsFragment extends Fragment {
 
     private void handleResponse(Users users) {
         mRecyclerViewAdapter = new RecyclerViewAdapterUserResults(new ArrayList<>(users.getData()), getContext(),
-                datum -> {
-                    Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show();
-                });
+                datum -> Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show());
+
+        // check if previous key exists, else disable it
+        if (users.getPaging().getPrevious() == null) {
+            mPrevious.setEnabled(false);
+        } else {
+            mPrevious.setEnabled(true);
+            mPrevious.setOnClickListener(view -> {
+                makePageRequest(users.getPaging().getPrevious());
+            });
+        }
+
+        // check if next key exists, else  disable it
+        if (users.getPaging().getNext() == null) {
+            mNext.setEnabled(false);
+        } else {
+            mNext.setEnabled(true);
+            mNext.setOnClickListener(view -> {
+                makePageRequest(users.getPaging().getNext());
+            });
+        }
+
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
     }
 
@@ -98,5 +111,26 @@ public class UsersResultsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         mCompositeDisposable.clear();
+    }
+
+    private void makeNetworkRequest(String query) {
+        Map<String, String> queryMap = new HashMap<>();
+        queryMap.put("search_type", "users");
+        queryMap.put("searched_keyword", query);
+
+        mCompositeDisposable.add(
+                RetrofitManager.getRetrofitInstance().getQueriedUsers(queryMap)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::handleResponse, this::handleError)
+        );
+    }
+
+    private void makePageRequest(String url) {
+        mCompositeDisposable.add(RetrofitManager.getRetrofitInstance().getNextPrevData(url)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResponse, this::handleError)
+        );
     }
 }
