@@ -1,10 +1,9 @@
-
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.album;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cursors {
+public class Cursors_ {
 
     @SerializedName("before")
     @Expose

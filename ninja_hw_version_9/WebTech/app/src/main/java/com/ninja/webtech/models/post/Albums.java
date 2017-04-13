@@ -1,13 +1,10 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Details {
+public class Albums {
 
-    @SerializedName("albums")
-    @Expose
-    private Albums albums;
     @SerializedName("posts")
     @Expose
     private Posts posts;
@@ -20,14 +17,6 @@ public class Details {
     @SerializedName("id")
     @Expose
     private String id;
-
-    public Albums getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(Albums albums) {
-        this.albums = albums;
-    }
 
     public Posts getPosts() {
         return posts;

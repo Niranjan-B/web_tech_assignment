@@ -1,31 +1,31 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.album;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Posts {
+public class Albums_ {
 
     @SerializedName("data")
     @Expose
-    private List<Datum__> data = null;
+    private List<Datum> data = null;
     @SerializedName("paging")
     @Expose
-    private Paging__ paging;
+    private Paging_ paging;
 
-    public List<Datum__> getData() {
+    public List<Datum> getData() {
         return data;
     }
 
-    public void setData(List<Datum__> data) {
+    public void setData(List<Datum> data) {
         this.data = data;
     }
 
-    public Paging__ getPaging() {
+    public Paging_ getPaging() {
         return paging;
     }
 
-    public void setPaging(Paging__ paging) {
+    public void setPaging(Paging_ paging) {
         this.paging = paging;
     }
 

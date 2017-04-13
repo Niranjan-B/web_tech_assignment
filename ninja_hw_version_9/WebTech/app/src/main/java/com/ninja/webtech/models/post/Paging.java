@@ -1,9 +1,9 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.post;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Paging__ {
+public class Paging {
 
     @SerializedName("previous")
     @Expose

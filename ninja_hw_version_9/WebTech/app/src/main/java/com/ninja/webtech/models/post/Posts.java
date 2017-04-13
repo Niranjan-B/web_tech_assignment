@@ -1,17 +1,17 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.post;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Albums {
+public class Posts {
 
     @SerializedName("data")
     @Expose
     private List<Datum> data = null;
     @SerializedName("paging")
     @Expose
-    private Paging_ paging;
+    private Paging paging;
 
     public List<Datum> getData() {
         return data;
@@ -21,11 +21,11 @@ public class Albums {
         this.data = data;
     }
 
-    public Paging_ getPaging() {
+    public Paging getPaging() {
         return paging;
     }
 
-    public void setPaging(Paging_ paging) {
+    public void setPaging(Paging paging) {
         this.paging = paging;
     }
 

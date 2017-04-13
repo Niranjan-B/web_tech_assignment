@@ -1,16 +1,17 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.album;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Datum {
+public class Datum_ {
 
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("photos")
+    @SerializedName("images")
     @Expose
-    private Photos photos;
+    private List<Image> images = null;
     @SerializedName("id")
     @Expose
     private String id;
@@ -23,12 +24,12 @@ public class Datum {
         this.name = name;
     }
 
-    public Photos getPhotos() {
-        return photos;
+    public List<Image> getImages() {
+        return images;
     }
 
-    public void setPhotos(Photos photos) {
-        this.photos = photos;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public String getId() {

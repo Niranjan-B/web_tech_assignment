@@ -1,22 +1,22 @@
-package com.ninja.webtech.models.detail;
+package com.ninja.webtech.models.album;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Paging_ {
+public class Paging {
 
     @SerializedName("cursors")
     @Expose
-    private Cursors_ cursors;
+    private Cursors cursors;
     @SerializedName("next")
     @Expose
     private String next;
 
-    public Cursors_ getCursors() {
+    public Cursors getCursors() {
         return cursors;
     }
 
-    public void setCursors(Cursors_ cursors) {
+    public void setCursors(Cursors cursors) {
         this.cursors = cursors;
     }
 
