@@ -1,6 +1,7 @@
 package com.ninja.webtech.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.ninja.webtech.R;
+import com.ninja.webtech.activities.MoreDetailsActivity;
 import com.ninja.webtech.adapters.RecyclerViewAdapterUserResults;
 import com.ninja.webtech.models.user.Datum;
 import com.ninja.webtech.models.user.Users;
@@ -82,7 +84,10 @@ public class UsersResultsFragment extends Fragment {
 
     private void handleResponse(Users users) {
         mRecyclerViewAdapter = new RecyclerViewAdapterUserResults(new ArrayList<>(users.getData()), getContext(),
-                datum -> Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show());
+                datum -> {
+                    Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getActivity(), MoreDetailsActivity.class));
+                });
 
         // check if previous key exists, else disable it
         if (users.getPaging().getPrevious() == null) {
