@@ -1,6 +1,7 @@
 package com.ninja.webtech.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,19 +24,29 @@ public class FragmentPageAdapterMoreDetails extends FragmentPagerAdapter {
     private static final String TAB_TITLES[] = {"Albums", "Posts"};
     private static final int TAB_ICONS[] = {R.mipmap.albums, R.mipmap.posts};
     private Context mContext;
+    String mId;
 
-    public FragmentPageAdapterMoreDetails(FragmentManager fm, Context context) {
+    public FragmentPageAdapterMoreDetails(FragmentManager fm, Context context,String id) {
         super(fm);
         mContext = context;
+        mId = id;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return AlbumsFragment.getInstance();
+                Fragment fragment = AlbumsFragment.getInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("id", mId);
+                fragment.setArguments(bundle);
+                return fragment;
             case 1:
-                return PostsFragment.getInstance();
+                Fragment fragment1 = PostsFragment.getInstance();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("id", mId);
+                fragment1.setArguments(bundle1);
+                return fragment1;
             default:
                 return null;
         }

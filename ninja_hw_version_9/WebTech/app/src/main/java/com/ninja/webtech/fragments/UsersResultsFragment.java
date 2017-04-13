@@ -85,8 +85,9 @@ public class UsersResultsFragment extends Fragment {
     private void handleResponse(Users users) {
         mRecyclerViewAdapter = new RecyclerViewAdapterUserResults(new ArrayList<>(users.getData()), getContext(),
                 datum -> {
-                    Toast.makeText(getContext(), "" + datum.getId(), Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getActivity(), MoreDetailsActivity.class));
+                    Intent intent = new Intent(getActivity(), MoreDetailsActivity.class);
+                    intent.putExtra("id", "" + datum.getId());
+                    startActivity(intent);
                 });
 
         // check if previous key exists, else disable it

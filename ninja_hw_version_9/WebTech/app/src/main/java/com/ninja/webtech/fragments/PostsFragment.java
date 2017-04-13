@@ -3,6 +3,7 @@ package com.ninja.webtech.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,14 @@ public class PostsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Log.d("id from posts = ", getArguments().getString("id"));
+        } else {
+            Log.d("id from posts = ", "onCreateView: null bundle");
+        }
+
         return inflater.inflate(R.layout.fragment_posts, container, false);
     }
 
