@@ -3,6 +3,7 @@ package com.ninja.webtech.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,12 @@ public class EventsResultsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Log.d("events", getArguments().getString("query"));
+        } else {
+            Log.d("events", "null bundle");
+        }
         return inflater.inflate(R.layout.fragment_events_results, container, false);
     }
 

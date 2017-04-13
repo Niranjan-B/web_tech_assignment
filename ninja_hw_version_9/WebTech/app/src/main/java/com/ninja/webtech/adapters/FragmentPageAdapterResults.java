@@ -1,6 +1,7 @@
 package com.ninja.webtech.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -26,25 +27,48 @@ public class FragmentPageAdapterResults extends FragmentPagerAdapter {
     private static final String mTabTitles[] = {"Users", "Pages", "Events", "Places", "Groups"};
     private static final int mTabIcons[] = {R.mipmap.users, R.mipmap.pages, R.mipmap.events, R.mipmap.places, R.mipmap.groups};
     private Context mContext;
+    private String mQuery;
 
-    public FragmentPageAdapterResults(FragmentManager fm, Context context) {
+    public FragmentPageAdapterResults(FragmentManager fm, Context context, String query) {
         super(fm);
         mContext = context;
+        mQuery = query;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0 :
-                return UsersResultsFragment.getNewInstance();
+                Fragment fragment = UsersResultsFragment.getNewInstance();
+                Bundle bundle = new Bundle();
+                bundle.putString("query", mQuery);
+                fragment.setArguments(bundle);
+                return fragment;
+
             case 1 :
-                return PagesResultsFragment.getNewInstance();
+                Fragment fragment1 = PagesResultsFragment.getNewInstance();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("query", mQuery);
+                fragment1.setArguments(bundle1);
+                return fragment1;
             case 2 :
-                return EventsResultsFragment.getInstance();
+                Fragment fragment2 = EventsResultsFragment.getInstance();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("query", mQuery);
+                fragment2.setArguments(bundle2);
+                return fragment2;
             case 3 :
-                return PlacesResultsFragment.getNewInstance();
+                Fragment fragment3 = PlacesResultsFragment.getNewInstance();
+                Bundle bundle3 = new Bundle();
+                bundle3.putString("query", mQuery);
+                fragment3.setArguments(bundle3);
+                return fragment3;
             case 4 :
-                return GroupsResultsFragment.getNewInstance();
+                Fragment fragment4 = GroupsResultsFragment.getNewInstance();
+                Bundle bundle4 = new Bundle();
+                bundle4.putString("query", mQuery);
+                fragment4.setArguments(bundle4);
+                return fragment4;
             default:
                 return null;
         }

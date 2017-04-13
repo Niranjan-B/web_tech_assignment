@@ -1,10 +1,12 @@
 package com.ninja.webtech.activities;
 
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.ninja.webtech.R;
 import com.ninja.webtech.adapters.FragmentPageAdapterResults;
@@ -15,16 +17,19 @@ public class ResultsActivity extends AppCompatActivity {
     TabLayout mTabLayout;
     ViewPager mViewPager;
     FragmentPageAdapterResults mFragmentPageAdapterResults;
+    private String mQueryFromUser = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        mQueryFromUser = getIntent().getStringExtra("query");
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar_activity_results);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout_activity_results);
         mViewPager = (ViewPager) findViewById(R.id.view_pager_activity_results);
-        mFragmentPageAdapterResults = new FragmentPageAdapterResults(getSupportFragmentManager(), ResultsActivity.this);
+        mFragmentPageAdapterResults = new FragmentPageAdapterResults(getSupportFragmentManager(), ResultsActivity.this, mQueryFromUser);
 
         mViewPager.setAdapter(mFragmentPageAdapterResults);
         mTabLayout.setupWithViewPager(mViewPager);

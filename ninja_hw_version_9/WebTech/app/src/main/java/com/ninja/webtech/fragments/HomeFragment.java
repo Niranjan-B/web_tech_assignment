@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
                     Toast.makeText(getContext(), "Please enter a keyword!!", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(getActivity(), ResultsActivity.class);
+                    intent.putExtra("query", mInputText.getText().toString());
                     startActivity(intent);
                 }
             }
