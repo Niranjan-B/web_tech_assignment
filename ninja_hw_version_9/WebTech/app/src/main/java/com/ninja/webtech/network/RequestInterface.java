@@ -1,6 +1,7 @@
 package com.ninja.webtech.network;
 
 import com.ninja.webtech.models.event.Events;
+import com.ninja.webtech.models.group.Groups;
 import com.ninja.webtech.models.page.Pages;
 import com.ninja.webtech.models.place.Places;
 import com.ninja.webtech.models.user.Users;
@@ -40,5 +41,11 @@ public interface RequestInterface {
 
     @GET
     Observable<Places> getNextPrevDataPlaces(@Url String url);
+
+    @GET("?")
+    Observable<Groups> getQueriedGroups(@QueryMap Map<String, String> options);
+
+    @GET
+    Observable<Groups> getNextPrevDataGroups(@Url String url);
 
 }

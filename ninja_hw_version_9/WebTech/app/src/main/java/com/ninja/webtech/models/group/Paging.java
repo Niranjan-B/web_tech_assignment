@@ -11,6 +11,9 @@ public class Paging {
     @SerializedName("next")
     @Expose
     private String next;
+    @SerializedName("previous")
+    @Expose
+    private String previous;
 
     public Cursors getCursors() {
         return cursors;
@@ -26,6 +29,14 @@ public class Paging {
 
     public void setNext(String next) {
         this.next = next;
+    }
+
+    public String getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(String previous) {
+        this.previous = previous;
     }
 
 }
