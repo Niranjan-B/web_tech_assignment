@@ -2,6 +2,7 @@ package com.ninja.webtech.network;
 
 import com.ninja.webtech.models.event.Events;
 import com.ninja.webtech.models.page.Pages;
+import com.ninja.webtech.models.place.Places;
 import com.ninja.webtech.models.user.Users;
 
 import java.util.Map;
@@ -33,5 +34,11 @@ public interface RequestInterface {
 
     @GET
     Observable<Events> getNextPrevDataEvents(@Url String url);
+
+    @GET("?")
+    Observable<Places> getQueriedPlaces(@QueryMap Map<String, String> options);
+
+    @GET
+    Observable<Places> getNextPrevDataPlaces(@Url String url);
 
 }
