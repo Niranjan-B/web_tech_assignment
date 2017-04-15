@@ -1,5 +1,6 @@
 package com.ninja.webtech.network;
 
+import com.ninja.webtech.models.page.Pages;
 import com.ninja.webtech.models.user.Users;
 
 import java.util.Map;
@@ -19,5 +20,11 @@ public interface RequestInterface {
 
     @GET
     Observable<Users> getNextPrevData(@Url String url);
+
+    @GET("?")
+    Observable<Pages> getQueriedUsersPages(@QueryMap Map<String, String> options);
+
+    @GET
+    Observable<Pages> getNextPrevDataPages(@Url String url);
 
 }
