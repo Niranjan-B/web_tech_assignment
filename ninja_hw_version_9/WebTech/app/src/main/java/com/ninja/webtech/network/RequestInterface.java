@@ -1,5 +1,6 @@
 package com.ninja.webtech.network;
 
+import com.ninja.webtech.models.album.Albums;
 import com.ninja.webtech.models.event.Events;
 import com.ninja.webtech.models.group.Groups;
 import com.ninja.webtech.models.page.Pages;
@@ -11,6 +12,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
+import retrofit2.http.QueryName;
 import retrofit2.http.Url;
 
 /**
@@ -48,4 +50,6 @@ public interface RequestInterface {
     @GET
     Observable<Groups> getNextPrevDataGroups(@Url String url);
 
+    @GET("?")
+    Observable<Albums> getAlbums(@QueryMap Map<String, String> options);
 }

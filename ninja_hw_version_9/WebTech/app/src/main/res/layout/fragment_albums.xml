@@ -1,12 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ninja.webtech.fragments.AlbumsFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.ninja.webtech.fragments.AlbumsFragment">
 
-    <TextView
+    <ExpandableListView
+        android:id="@+id/expandable_list_view_fragment_albums"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Albums Fragment"/>
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="0.5dp"
+        android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorRight"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/text_view_no_albums_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="No Albums Available To Display"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>
