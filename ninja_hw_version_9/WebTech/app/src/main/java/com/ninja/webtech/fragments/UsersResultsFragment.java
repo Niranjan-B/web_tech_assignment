@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 public class UsersResultsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapterUserResults mRecyclerViewAdapter;
+    private RecyclerViewAdapterUserResults mRecyclerViewAdapter = null;
     private CompositeDisposable mCompositeDisposable;
 
     private Button mPrevious, mNext;
@@ -73,6 +73,21 @@ public class UsersResultsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCompositeDisposable.clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRecyclerViewAdapter != null) {
+            mRecyclerViewAdapter.notifyDataSetChanged();
+        }
+
+    }
+
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -87,6 +102,9 @@ public class UsersResultsFragment extends Fragment {
                 datum -> {
                     Intent intent = new Intent(getActivity(), MoreDetailsActivity.class);
                     intent.putExtra("id", "" + datum.getId());
+                    intent.putExtra("picture", datum.getPicture().getData().getUrl());
+                    intent.putExtra("name", datum.getName());
+                    intent.putExtra("type", "users");
                     startActivity(intent);
                 });
 
@@ -111,12 +129,6 @@ public class UsersResultsFragment extends Fragment {
         }
 
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mCompositeDisposable.clear();
     }
 
     private void makeNetworkRequest(String query) {

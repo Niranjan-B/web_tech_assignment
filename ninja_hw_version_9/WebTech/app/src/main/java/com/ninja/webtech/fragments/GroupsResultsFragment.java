@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class GroupsResultsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapterGroupResults mRecyclerViewAdapter;
+    private RecyclerViewAdapterGroupResults mRecyclerViewAdapter = null;
     private CompositeDisposable mCompositeDisposable;
 
     private Button mPrevious, mNext;
@@ -68,6 +68,20 @@ public class GroupsResultsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCompositeDisposable.clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRecyclerViewAdapter != null) {
+            mRecyclerViewAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void makeNetworkRequest(String query) {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("search_type", "groups");
@@ -90,6 +104,9 @@ public class GroupsResultsFragment extends Fragment {
                 datum -> {
                     Intent intent = new Intent(getActivity(), MoreDetailsActivity.class);
                     intent.putExtra("id", "" + datum.getId());
+                    intent.putExtra("picture", datum.getPicture().getData().getUrl());
+                    intent.putExtra("name", datum.getName());
+                    intent.putExtra("type", "groups");
                     startActivity(intent);
                 });
 
@@ -119,12 +136,6 @@ public class GroupsResultsFragment extends Fragment {
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mCompositeDisposable.clear();
     }
 
     private void makePageRequest(String url) {

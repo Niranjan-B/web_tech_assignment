@@ -1,6 +1,8 @@
 package com.ninja.webtech.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +26,13 @@ public class RecyclerViewAdapterGroupResults extends RecyclerView.Adapter<Recycl
     ArrayList<Datum> mGroupResults = new ArrayList<>();
     Context mContext;
     OnItemClickListenerRVGroups mClickListener;
+    SharedPreferences mPref;
 
     public RecyclerViewAdapterGroupResults(ArrayList<Datum> groupsList, Context context, OnItemClickListenerRVGroups onItemClickListenerRV) {
         this.mGroupResults = groupsList;
         mContext = context;
         mClickListener = onItemClickListenerRV;
+        mPref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Override
@@ -42,6 +46,13 @@ public class RecyclerViewAdapterGroupResults extends RecyclerView.Adapter<Recycl
         Picasso.with(mContext).load(mGroupResults.get(position).getPicture().getData().getUrl()).into(holder.mProfilePic);
         holder.mName.setText(mGroupResults.get(position).getName());
         holder.bind(mGroupResults.get(position), mClickListener);
+        if (mPref.getString(mGroupResults.get(position).getId(), "").equals("")) {
+            //Log.d("ninja", "empty " + mUsersList.get(position).getId());
+            holder.mFav.setImageResource(R.drawable.ic_star_border_black_24dp);
+        } else {
+            holder.mFav.setImageResource(R.mipmap.favorites_on);
+            //Log.d("ninja", "present");
+        }
     }
 
     @Override
@@ -51,7 +62,7 @@ public class RecyclerViewAdapterGroupResults extends RecyclerView.Adapter<Recycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView mProfilePic;
+        ImageView mProfilePic, mFav;
         TextView mName;
         View view;
 
@@ -60,6 +71,7 @@ public class RecyclerViewAdapterGroupResults extends RecyclerView.Adapter<Recycl
 
             mProfilePic = (ImageView) itemView.findViewById(R.id.image_view_custom_row);
             mName = (TextView) itemView.findViewById(R.id.text_view_custom_row);
+            mFav = (ImageView) itemView.findViewById(R.id.image_view_star_custom_row);
             view = itemView;
         }
 

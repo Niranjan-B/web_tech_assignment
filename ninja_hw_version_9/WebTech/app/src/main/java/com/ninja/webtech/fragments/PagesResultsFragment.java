@@ -32,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class PagesResultsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapterPageResults mRecyclerViewAdapter;
+    private RecyclerViewAdapterPageResults mRecyclerViewAdapter = null;
     private CompositeDisposable mCompositeDisposable;
 
     private Button mPrevious, mNext;
@@ -85,11 +85,28 @@ public class PagesResultsFragment extends Fragment {
         );
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mCompositeDisposable.clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mRecyclerViewAdapter != null) {
+            mRecyclerViewAdapter.notifyDataSetChanged();
+        }
+    }
+
     private void handleResponse(Pages pages) {
         mRecyclerViewAdapter = new RecyclerViewAdapterPageResults(new ArrayList<>(pages.getData()), getContext(),
                 datum -> {
                     Intent intent = new Intent(getActivity(), MoreDetailsActivity.class);
                     intent.putExtra("id", "" + datum.getId());
+                    intent.putExtra("picture", datum.getPicture().getData().getUrl());
+                    intent.putExtra("name", datum.getName());
+                    intent.putExtra("type", "pages");
                     startActivity(intent);
                 });
 
@@ -119,12 +136,6 @@ public class PagesResultsFragment extends Fragment {
     private void initRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mCompositeDisposable.clear();
     }
 
     private void makePageRequest(String url) {
