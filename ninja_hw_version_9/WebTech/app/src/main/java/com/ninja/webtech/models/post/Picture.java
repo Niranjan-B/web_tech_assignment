@@ -1,3 +1,4 @@
+
 package com.ninja.webtech.models.post;
 
 import com.google.gson.annotations.Expose;

@@ -1,12 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.ninja.webtech.fragments.PostsFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.ninja.webtech.fragments.PostsFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_posts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Posts fragment"/>
+        android:id="@+id/text_view_no_posts_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="No Posts Available To Display"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:visibility="gone"/>
 
-</FrameLayout>
+
+</RelativeLayout>

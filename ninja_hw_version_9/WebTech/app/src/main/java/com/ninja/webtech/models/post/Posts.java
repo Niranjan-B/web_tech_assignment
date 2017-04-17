@@ -1,32 +1,53 @@
 package com.ninja.webtech.models.post;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Posts {
 
-    @SerializedName("data")
+    @SerializedName("posts")
     @Expose
-    private List<Datum> data = null;
-    @SerializedName("paging")
+    private Posts_ posts;
+    @SerializedName("name")
     @Expose
-    private Paging paging;
+    private String name;
+    @SerializedName("picture")
+    @Expose
+    private Picture picture;
+    @SerializedName("id")
+    @Expose
+    private String id;
 
-    public List<Datum> getData() {
-        return data;
+    public Posts_ getPosts() {
+        return posts;
     }
 
-    public void setData(List<Datum> data) {
-        this.data = data;
+    public void setPosts(Posts_ posts) {
+        this.posts = posts;
     }
 
-    public Paging getPaging() {
-        return paging;
+    public String getName() {
+        return name;
     }
 
-    public void setPaging(Paging paging) {
-        this.paging = paging;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
 }

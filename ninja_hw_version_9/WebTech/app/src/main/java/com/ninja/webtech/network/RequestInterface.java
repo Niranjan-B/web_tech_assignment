@@ -5,6 +5,7 @@ import com.ninja.webtech.models.event.Events;
 import com.ninja.webtech.models.group.Groups;
 import com.ninja.webtech.models.page.Pages;
 import com.ninja.webtech.models.place.Places;
+import com.ninja.webtech.models.post.Posts;
 import com.ninja.webtech.models.user.Users;
 
 import java.util.Map;
@@ -52,4 +53,7 @@ public interface RequestInterface {
 
     @GET("?")
     Observable<Albums> getAlbums(@QueryMap Map<String, String> options);
+
+    @GET("?")
+    Observable<Posts> getPosts(@QueryMap Map<String, String> options);
 }
