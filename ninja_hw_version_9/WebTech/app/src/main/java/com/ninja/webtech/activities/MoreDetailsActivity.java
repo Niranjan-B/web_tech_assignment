@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.ninja.webtech.R;
@@ -64,7 +65,10 @@ public class MoreDetailsActivity extends AppCompatActivity {
             case R.id.add_to_fav:
                 StorageClass storageClass = new StorageClass(mId, mName, mUrl, mType);
                 mPref.edit().putString(mId, gson.toJson(storageClass)).apply();
-                Log.d("added", "" + mPref.getString(mId, ""));
+                Toast.makeText(this, "Added to Favorites", Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.remove_from_fav:
+                mPref.edit().remove(mId).apply();
                 return true;
             case R.id.post_to_fb:
                 return true;
@@ -77,7 +81,17 @@ public class MoreDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.overflow_menu, menu);
+        if (mPref.getString(mId, "").isEmpty()) {
+            // indicates the id is not present, load overflow_menu
+            getMenuInflater().inflate(R.menu.overflow_menu, menu);
+            Log.d("ninja", "empty");
+        } else {
+            // indicates the id is present, load overflow_menu_already_fav
+            getMenuInflater().inflate(R.menu.overflow_menu_already_fav, menu);
+            Log.d("ninja", "contains");
+        }
+
+
         return true;
     }
 
