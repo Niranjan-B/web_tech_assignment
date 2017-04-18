@@ -33,7 +33,7 @@ public class FavoritesFragment extends Fragment {
 
         mTabLayout = (TabLayout) view.findViewById(R.id.tab_layout_favorites_fragment);
         mViewPager = (ViewPager) view.findViewById(R.id.view_pager_favorites_fragment);
-        FragmentPageAdapterFavorites adapter = new FragmentPageAdapterFavorites(getActivity().getSupportFragmentManager(), getActivity());
+        FragmentPageAdapterFavorites adapter = new FragmentPageAdapterFavorites(getChildFragmentManager(), getActivity());
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
