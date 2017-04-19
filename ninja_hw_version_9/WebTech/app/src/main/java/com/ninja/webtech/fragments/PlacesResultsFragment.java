@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.ninja.webtech.GlobalSingleton;
 import com.ninja.webtech.R;
 import com.ninja.webtech.activities.MoreDetailsActivity;
 import com.ninja.webtech.adapters.RecyclerViewAdapterEventResults;
@@ -59,6 +61,9 @@ public class PlacesResultsFragment extends Fragment {
 
         mCompositeDisposable = new CompositeDisposable();
 
+        Toast.makeText(getContext(), "" + GlobalSingleton.getmLat(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "" + GlobalSingleton.getmLon(), Toast.LENGTH_LONG).show();
+
         initRecyclerView();
 
         Bundle bundle = getArguments();
@@ -88,6 +93,8 @@ public class PlacesResultsFragment extends Fragment {
         Map<String, String> queryMap = new HashMap<>();
         queryMap.put("search_type", "places");
         queryMap.put("searched_keyword", query);
+        queryMap.put("lat",  Double.toString(GlobalSingleton.getmLat()));
+        queryMap.put("lon", Double.toString(GlobalSingleton.getmLon()));
 
         mCompositeDisposable.add(
                 RetrofitManager.getRetrofitInstance().getQueriedPlaces(queryMap)
