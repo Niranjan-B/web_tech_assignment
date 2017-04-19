@@ -26,10 +26,10 @@ import java.util.Map;
 public class UsersFragment extends Fragment {
 
     RecyclerView mRecyclerView;
-    RecyclerViewFavoritesAdapter mAdapter;
-    Gson gson;
-    ArrayList<StorageClass> mList;
-    SharedPreferences mPref;
+    static RecyclerViewFavoritesAdapter mAdapter;
+    static Gson gson;
+    static ArrayList<StorageClass> mList;
+    static SharedPreferences mPref;
 
     public UsersFragment() {
         // Required empty public constructor
@@ -61,10 +61,23 @@ public class UsersFragment extends Fragment {
             }
         }
 
-        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList);
+        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList, "users");
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
     }
 
+    public static void refreshRecyclerView() {
+        mList.clear();
+
+        Map<String, ?> keys = mPref.getAll();
+        for (Map.Entry<String, ?> set : keys.entrySet()) {
+            StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
+            if (tempClass.mType.equals("users")) {
+                mList.add(tempClass);
+            }
+        }
+
+        mAdapter.refreshView(mList);
+    }
 }

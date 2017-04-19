@@ -61,7 +61,7 @@ public class GroupsFragment extends Fragment {
             }
         }
 
-        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList);
+        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList, "groups");
         mRecyclerView.setAdapter(mAdapter);
 
 

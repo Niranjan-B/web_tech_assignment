@@ -61,7 +61,7 @@ public class EventsFragment extends Fragment {
             }
         }
 
-        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList);
+        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList, "events");
         mRecyclerView.setAdapter(mAdapter);
 
         // Inflate the layout for this fragment

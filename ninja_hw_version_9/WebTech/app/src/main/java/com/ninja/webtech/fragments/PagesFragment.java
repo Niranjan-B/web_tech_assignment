@@ -60,7 +60,7 @@ public class PagesFragment extends Fragment {
             }
         }
 
-        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList);
+        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList, "pages");
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

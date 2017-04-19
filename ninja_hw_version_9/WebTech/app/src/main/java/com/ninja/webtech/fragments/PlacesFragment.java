@@ -59,7 +59,7 @@ public class PlacesFragment extends Fragment {
             }
         }
 
-        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList);
+        mAdapter = new RecyclerViewFavoritesAdapter(getContext(), mList,"places");
         mRecyclerView.setAdapter(mAdapter);
 
         return view;

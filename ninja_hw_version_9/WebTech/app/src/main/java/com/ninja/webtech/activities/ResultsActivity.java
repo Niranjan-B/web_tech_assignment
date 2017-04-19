@@ -60,4 +60,10 @@ public class ResultsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("ninja", "On resume called");
+    }
 }

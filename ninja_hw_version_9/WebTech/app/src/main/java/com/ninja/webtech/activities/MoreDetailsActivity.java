@@ -69,6 +69,7 @@ public class MoreDetailsActivity extends AppCompatActivity {
                 return true;
             case R.id.remove_from_fav:
                 mPref.edit().remove(mId).apply();
+                Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.post_to_fb:
                 return true;
