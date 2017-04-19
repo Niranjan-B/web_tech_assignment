@@ -61,8 +61,8 @@ public class PlacesResultsFragment extends Fragment {
 
         mCompositeDisposable = new CompositeDisposable();
 
-        Toast.makeText(getContext(), "" + GlobalSingleton.getmLat(), Toast.LENGTH_LONG).show();
-        Toast.makeText(getContext(), "" + GlobalSingleton.getmLon(), Toast.LENGTH_LONG).show();
+        // Toast.makeText(getContext(), "" + GlobalSingleton.getmLat(), Toast.LENGTH_LONG).show();
+        // Toast.makeText(getContext(), "" + GlobalSingleton.getmLon(), Toast.LENGTH_LONG).show();
 
         initRecyclerView();
 

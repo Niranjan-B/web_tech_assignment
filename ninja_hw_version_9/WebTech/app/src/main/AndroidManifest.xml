@@ -23,7 +23,8 @@
                   android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
                   android:label="@string/app_name" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -32,12 +33,15 @@
         </activity>
         <activity
             android:name=".activities.AboutMeActivity"
-            android:parentActivityName=".activities.MainActivity">
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name=".activities.ResultsActivity">
+            android:name=".activities.ResultsActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activities.MoreDetailsActivity">
+        <activity android:name=".activities.MoreDetailsActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
