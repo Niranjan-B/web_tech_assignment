@@ -25,10 +25,10 @@ import java.util.Map;
 public class EventsFragment extends Fragment {
 
     RecyclerView mRecyclerView;
-    RecyclerViewFavoritesAdapter mAdapter;
-    Gson gson;
-    ArrayList<StorageClass> mList;
-    SharedPreferences mPref;
+    static RecyclerViewFavoritesAdapter mAdapter;
+    static Gson gson;
+    static ArrayList<StorageClass> mList;
+    static SharedPreferences mPref;
 
 
     public EventsFragment() {
@@ -66,6 +66,20 @@ public class EventsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    public static void refreshRecyclerView() {
+        mList.clear();
+
+        Map<String, ?> keys = mPref.getAll();
+        for (Map.Entry<String, ?> set : keys.entrySet()) {
+            StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
+            if (tempClass.mType.equals("events")) {
+                mList.add(tempClass);
+            }
+        }
+
+        mAdapter.refreshView(mList);
     }
 
 }

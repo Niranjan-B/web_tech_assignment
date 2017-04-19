@@ -25,10 +25,10 @@ import java.util.Map;
 public class PlacesFragment extends Fragment {
 
     RecyclerView mRecyclerView;
-    RecyclerViewFavoritesAdapter mAdapter;
-    Gson gson;
-    ArrayList<StorageClass> mList;
-    SharedPreferences mPref;
+    static RecyclerViewFavoritesAdapter mAdapter;
+    static Gson gson;
+    static ArrayList<StorageClass> mList;
+    static SharedPreferences mPref;
 
     public PlacesFragment() {
         // Required empty public constructor
@@ -63,6 +63,20 @@ public class PlacesFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    public static void refreshRecyclerView() {
+        mList.clear();
+
+        Map<String, ?> keys = mPref.getAll();
+        for (Map.Entry<String, ?> set : keys.entrySet()) {
+            StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
+            if (tempClass.mType.equals("places")) {
+                mList.add(tempClass);
+            }
+        }
+
+        mAdapter.refreshView(mList);
     }
 
 }

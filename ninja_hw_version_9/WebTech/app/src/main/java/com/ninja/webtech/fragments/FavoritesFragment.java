@@ -54,7 +54,17 @@ public class FavoritesFragment extends Fragment {
         if (UsersFragment.mAdapter != null) {
             UsersFragment.refreshRecyclerView();
         }
-
-
+        if (PagesFragment.mAdapter != null) {
+            PagesFragment.refreshRecyclerView();
+        }
+        if (EventsFragment.mAdapter != null) {
+            EventsFragment.refreshRecyclerView();
+        }
+        if (PlacesFragment.mAdapter != null) {
+            PlacesFragment.refreshRecyclerView();
+        }
+        if (GroupsFragment.mAdapter != null) {
+            GroupsFragment.refreshRecyclerView();
+        }
     }
 }
