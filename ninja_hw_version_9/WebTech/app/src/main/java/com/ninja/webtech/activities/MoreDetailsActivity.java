@@ -1,6 +1,8 @@
 package com.ninja.webtech.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -12,6 +14,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.gson.Gson;
 import com.ninja.webtech.R;
 import com.ninja.webtech.adapters.FragmentPageAdapterMoreDetails;
@@ -25,6 +34,8 @@ public class MoreDetailsActivity extends AppCompatActivity {
     String mId, mName, mUrl, mType;
     Gson gson;
     SharedPreferences mPref;
+    private ShareDialog mShareDialog;
+    private CallbackManager mCallBackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,25 @@ public class MoreDetailsActivity extends AppCompatActivity {
         mName = getIntent().getStringExtra("name");
         mUrl = getIntent().getStringExtra("picture");
         mType = getIntent().getStringExtra("type");
+
+        mShareDialog = new ShareDialog(this);
+        mCallBackManager = CallbackManager.Factory.create();
+        mShareDialog.registerCallback(mCallBackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Log.d("ninja", "i'm in success" + result.getPostId());
+            }
+
+            @Override
+            public void onCancel() {
+                Toast.makeText(MoreDetailsActivity.this, "Sharing cancelled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Toast.makeText(MoreDetailsActivity.this, "Error while sharing", Toast.LENGTH_LONG).show();
+            }
+        });
 
         gson = new Gson();
         mPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -57,6 +87,12 @@ public class MoreDetailsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallBackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -72,6 +108,16 @@ public class MoreDetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.post_to_fb:
+                Toast.makeText(this, "Sharing " + mName + "!", Toast.LENGTH_SHORT).show();
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setImageUrl(Uri.parse(mUrl))
+                            .setContentTitle(mName)
+                            .setContentDescription("FB SEARCH FROM USC CSCI571...")
+                            .setContentUrl(Uri.parse("http://cs-server.usc.edu:21324/webtech/view.html"))
+                            .build();
+                    mShareDialog.show(linkContent);
+                }
                 return true;
             default:
                 super.onOptionsItemSelected(item);

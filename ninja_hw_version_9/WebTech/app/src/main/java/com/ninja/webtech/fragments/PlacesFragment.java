@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +54,14 @@ public class PlacesFragment extends Fragment {
 
         Map<String, ?> keys = mPref.getAll();
         for (Map.Entry<String, ?> set : keys.entrySet()) {
-            StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
-            if (tempClass.mType.equals("places")) {
-                mList.add(tempClass);
+            Log.d("ninja", "places = " + set.getValue().toString());
+            try {
+                StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
+                if (tempClass.mType.equals("places")) {
+                    mList.add(tempClass);
+                }
+            } catch (Exception exc) {
+                exc.printStackTrace();
             }
         }
 
@@ -70,9 +76,13 @@ public class PlacesFragment extends Fragment {
 
         Map<String, ?> keys = mPref.getAll();
         for (Map.Entry<String, ?> set : keys.entrySet()) {
-            StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
-            if (tempClass.mType.equals("places")) {
-                mList.add(tempClass);
+            try {
+                StorageClass tempClass = gson.fromJson(set.getValue().toString(), StorageClass.class);
+                if (tempClass.mType.equals("places")) {
+                    mList.add(tempClass);
+                }
+            } catch (Exception exc) {
+                exc.printStackTrace();
             }
         }
 

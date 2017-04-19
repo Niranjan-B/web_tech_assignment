@@ -12,7 +12,13 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="1679160999051021"/>
+            android:value="@string/facebook_app_id"/>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1679160999051021"
+                  android:name="com.facebook.FacebookContentProvider"
+                  android:exported="true" />
+        <activity android:name="com.facebook.FacebookActivity"
+                  android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                  android:label="@string/app_name" />
 
         <activity android:name=".activities.MainActivity">
             <intent-filter>

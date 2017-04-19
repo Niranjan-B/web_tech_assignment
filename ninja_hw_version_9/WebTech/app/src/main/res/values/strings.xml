@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WebTech</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">1679160999051021</string>
 </resources>
