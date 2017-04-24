@@ -64,18 +64,18 @@ public class RecyclerViewAdapterPlaceResults extends RecyclerView.Adapter<Recycl
 
         ImageView mProfilePic, mFav;
         TextView mName;
-        View view;
+        ImageView mMoreDetailView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             mProfilePic = (ImageView) itemView.findViewById(R.id.image_view_custom_row);
             mName = (TextView) itemView.findViewById(R.id.text_view_custom_row);
             mFav = (ImageView) itemView.findViewById(R.id.image_view_star_custom_row);
-            view = itemView;
+            mMoreDetailView = (ImageView) itemView.findViewById(R.id.imageView2);
         }
 
         public void bind(final Datum datum, final OnItemClickListenerRVPlaces onItemClickListenerRV) {
-            view.setOnClickListener(view1 -> onItemClickListenerRV.onItemClick(datum));
+            mMoreDetailView.setOnClickListener(view1 -> onItemClickListenerRV.onItemClick(datum));
         }
     }
 }

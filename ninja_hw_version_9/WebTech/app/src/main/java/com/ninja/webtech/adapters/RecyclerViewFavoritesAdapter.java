@@ -51,7 +51,7 @@ public class RecyclerViewFavoritesAdapter extends RecyclerView.Adapter<RecyclerV
         holder.mName.setText(mGeneralList.get(position).mName);
 
         // bad programming, never set listeners inside adapter...SHIT HAPPENS!!!!!!
-        holder.itemView.setOnClickListener(view -> {
+        holder.mMoreDetailsView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, MoreDetailsActivity.class);
             intent.putExtra("id", "" + mGeneralList.get(position).mId);
             intent.putExtra("picture", mGeneralList.get(position).mUrl);
@@ -69,6 +69,7 @@ public class RecyclerViewFavoritesAdapter extends RecyclerView.Adapter<RecyclerV
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mProfilePic, mFavStar;
         TextView mName;
+        ImageView mMoreDetailsView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +77,7 @@ public class RecyclerViewFavoritesAdapter extends RecyclerView.Adapter<RecyclerV
             mProfilePic = (ImageView) itemView.findViewById(R.id.image_view_custom_row);
             mFavStar = (ImageView) itemView.findViewById(R.id.image_view_star_custom_row);
             mName = (TextView) itemView.findViewById(R.id.text_view_custom_row);
+            mMoreDetailsView = (ImageView) itemView.findViewById(R.id.imageView2);
         }
     }
 
